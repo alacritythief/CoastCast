@@ -1,0 +1,22 @@
+{
+  "name": "CoastCast",
+  "version": "1.0.0",
+  "description": "A realtime WvW reporting system for Tarnished Coast.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "enterrepohere"
+  },
+  "keywords": [
+    "Tarnished Coast",
+    "CoastCast"
+  ],
+  "author": "Andy Wong",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.12.3"
+  }
+}
