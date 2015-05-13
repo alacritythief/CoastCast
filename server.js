@@ -46,12 +46,12 @@ Date.prototype.rawstamp = function() {
 
 
 // Global vars:
-
 app.locals.redbgQueue = [];
 app.locals.greenbgQueue = [];
 app.locals.bluebgQueue = [];
 app.locals.ebgQueue = [];
 app.locals.exampleQueue = [];
+
 
 // Routes:
 app.get('/', function(req, res) {
