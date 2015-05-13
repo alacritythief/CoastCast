@@ -1,4 +1,4 @@
-// CoastCast v1.0
+// CoastCast v1.0 Server
 // A realtime WvW reporting system for Tarnished Coast, using Node.JS and
 // Express.JS
 
