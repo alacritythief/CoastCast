@@ -6,7 +6,7 @@ A realtime WvW reporting system for Tarnished Coast, using Node.JS and Express.J
 Server Instructions:
 -------------------
 
-* Make sure Node.js and NPM is installed
+* Make sure Node.js and NPM are installed
 * Clone this repo and go into its folder
 * `npm install` will locally install all required Node modules
 * `node server.js` to run the server
