@@ -94,6 +94,10 @@ app.get('/test', function(req, res) {
     });
 });
 
+app.get('/test/json', function(req, res) {
+  res.json(app.locals.exampleQueue.reverse());
+});
+
 app.post('/test', function(req,res) {
   var payload = req.body;
   now = new Date();
@@ -106,7 +110,7 @@ app.post('/test', function(req,res) {
       'rawstamp': now.rawstamp(),
       'user': payload['user'],
       'report': payload['report'],
-      'time': now.timestamp()
+      'timestamp': now.timestamp()
     };
 
     if (app.locals.exampleQueue.length > 9) {
