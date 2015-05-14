@@ -5,10 +5,22 @@
 // LIBRARIES
 var express = require('express');
 var bodyParser = require('body-parser');
-
+var stylus = require('stylus');
+var nib = require('nib');
 
 // EXPRESS APP
 var app = express();
+
+// STYLUS MIDDLEWARE
+
+function compileStylus(str, path) {
+  return stylus(str)
+    .set('filename', path)
+    .use(nib())
+};
+
+app.use(stylus.middleware({src: __dirname + '/public', compile: compileStylus}));
+app.use(express.static(__dirname + '/public'));
 
 // Use body-parser for parsing requests:
 app.use(bodyParser.urlencoded({ extended: false }));
