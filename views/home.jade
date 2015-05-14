@@ -3,24 +3,7 @@ extends ./layouts/base
 block content
   h3 Submit a report:
   
-  form(action="/submit", method="post")
-    label(for="user") Name:
-    br
-    input(type="text", name="user", placeholder="Character Name")
-    br
-    label(for="bg") Battleground:
-    br
-    select(name="bg")
-      option(value="RED") Red Borderlands
-      option(value="GREEN") Green Borderlands
-      option(value="BLUE") Blue Borderlands
-      option(value="EBG") Eternal Battlegrouns
-    br
-    label(for="report") Your Report:
-    br
-    input(type="text", name="report", placeholder="30 JQ spotted at N outer gate at Hills")
-    br
-    input(type="submit", value="submit")
+  include ./includes/submit
   
   h3= reportType
   p= reportCount
