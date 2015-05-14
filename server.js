@@ -4,7 +4,7 @@
 
 // LIBRARIES
 var express = require('express');
-var bodyParser = require('body-parser')
+var bodyParser = require('body-parser');
 
 
 // EXPRESS APP
@@ -15,7 +15,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // TEMPLATE ENGINE - JADE
-app.set('views', './views')
+app.set('views', './views');
 app.set('view engine', 'jade');
 
 
