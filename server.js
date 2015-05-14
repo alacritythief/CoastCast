@@ -67,6 +67,7 @@ Array.prototype.tempSwap = function() {
   return results;
 };
 
+
 // GLOBAL VARS
 app.locals.redbgQueue = [];
 app.locals.greenbgQueue = [];
