@@ -5,12 +5,6 @@ block content
   
   include ./includes/submit
   
-  h3= reportType
-  p= reportCount
-  
-  for report in reports
-    h2= report.rawstamp
-    ul
-      li #{report.bg} BL: #{report.report}
-      li Reported by: #{report.user}
-      li Posted: #{report.timestamp}
+  h3 #{reportType}: #{reportCount} Total
+
+  include ./includes/reports_all

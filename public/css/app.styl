@@ -1,4 +1,89 @@
+// Imports
+
+@import _normalize
 @import _colors
 
+// Tags
+
 body
-  background-color: backgroundcolor
+  background-color color-bg-body
+  font-family Helvetica, Arial, Sans-Serif
+  font-size 14px
+
+h1, h2, h3
+  margin 0
+  padding 0
+
+input, label
+  display block
+
+input[type=text]
+  border 1px
+  border-color 000
+  border-style solid
+  border-radius .2rem
+  outline none
+  margin-bottom 1rem
+  padding .3rem
+  width 98%
+
+input[type=submit]
+  background-color black
+  border 1px
+  border-color 000
+  border-style solid
+  border-radius .2rem
+  color white
+  margin-top .5rem
+  outline 0 none
+  padding .5rem
+
+select
+  font-size 1.5rem
+  padding .2rem
+  margin-bottom 1rem
+
+// Classes
+
+.container
+  background-color color-bg-container
+  margin 0 auto
+  max-width 650px
+  padding .5rem
+
+  h3
+    margin-top 1rem
+    margin-bottom .5rem
+
+.logo
+  background-color color-bg-title
+  color color-text-title
+  padding 1rem
+  text-align center
+
+.message-green
+  background-color color-bg-message-green
+  color white
+  font-weight bold
+  padding .5rem
+
+.message-red
+  background-color color-bg-message-red
+  color white
+  font-weight bold
+  padding .5rem
+
+.report
+  background-color color-bg-report
+
+  .title
+    background-color color-bg-title
+    color color-text-title
+    padding .5rem
+
+  ul
+    margin 0 0 1rem 0
+    padding .5rem 0 .5rem .5rem
+
+    li
+      list-style none

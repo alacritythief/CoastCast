@@ -147,12 +147,12 @@ app.post('/submit', function(req,res) {
     };
 
     app.locals.exampleQueue.push(report);
-    app.locals.message = "Your report has been successfully created!";
+    app.locals.message = "<div class='message-green'>Your report has been successfully created!</div>";
     res.status(200).redirect('/');
   } else {
     console.log('Received: BAD Report');
     console.log(req.body);
-    app.locals.message = "Please complete all fields.";
+    app.locals.message = "<div class='message-red'>Please complete all fields.</div>";
     res.status(500).redirect('/');
   };
 });
