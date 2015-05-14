@@ -4,7 +4,6 @@
 
 // LIBRARIES
 var express = require('express');
-var exphbs  = require('express-handlebars');
 var bodyParser = require('body-parser')
 
 
@@ -15,9 +14,9 @@ var app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-// TEMPLATE ENGINE
-app.engine('.hbs', exphbs({extname: '.hbs', defaultLayout: 'base'}));
-app.set('view engine', '.hbs');
+// TEMPLATE ENGINE - JADE
+app.set('views', './views')
+app.set('view engine', 'jade');
 
 
 // PROTOTYPES
@@ -27,6 +26,7 @@ Date.prototype.addzero = function(num) {
   return (num >= 0 && num < 10) ? "0" + num : num + "";
 };
 
+// Converts 24hr format to 12hr format
 Date.prototype.standardHours = function() {
   var hours = this.getHours();
   if (hours > 12) {
@@ -114,6 +114,9 @@ app.get('/submit', function(req, res) {
 app.post('/submit', function(req,res) {
   var payload = req.body;
   now = new Date();
+
+  console.log("Payload:");
+  console.log(payload);
 
   if (!payload['user'].isEmpty() && !payload['bg'].isEmpty() && !payload['report'].isEmpty()) {
     console.log('Received: GOOD Report');
