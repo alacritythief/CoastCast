@@ -11,11 +11,12 @@ var bodyParser = require('body-parser')
 // EXPRESS APP
 var app = express();
 
-// Use JSON for parsing requests:
-app.use(bodyParser.json())
+// Use body-parser for parsing requests:
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 // TEMPLATE ENGINE
-app.engine('.hbs', exphbs({extname: '.hbs'}));
+app.engine('.hbs', exphbs({extname: '.hbs', defaultLayout: 'base'}));
 app.set('view engine', '.hbs');
 
 
@@ -38,7 +39,7 @@ Date.prototype.timestamp = function() {
   ].join(" ");
 };
 
-// Creates a  raw YYYYMMDDHHMMSS timestamp
+// Creates a raw YYYYMMDDHHMMSS timestamp
 Date.prototype.rawstamp = function() {
   return [
     [this.getFullYear(),
@@ -50,12 +51,19 @@ Date.prototype.rawstamp = function() {
   ].join("");
 };
 
+// Checks if string is empty
+String.prototype.isEmpty = function() {
+    return (this.length === 0 || !this.trim());
+};
 
-// GLOVAL VARS
+
+// GLOBAL VARS
 app.locals.redbgQueue = [];
 app.locals.greenbgQueue = [];
 app.locals.bluebgQueue = [];
 app.locals.ebgQueue = [];
+
+app.locals.message = null;
 
 // TEST VAR
 app.locals.exampleQueue = [];
@@ -63,52 +71,36 @@ app.locals.exampleQueue = [];
 
 // ROUTES
 app.get('/', function(req, res) {
-  res.render('home', {
-        helpers: {
-            testText: function() { return 'This is CoastCast!'; }
-        }
-    });
-});
-
-app.get('/report/:payload', function(req, res) {
-  res.render('home', {
-        helpers: {
-            testText: function() { return 'PARAMS: ' + req.params.payload; }
-        }
-    });
-});
-
-
-// EXAMPLE POST request:
-// curl -d '{"user": "Jim Bob", "report": "30 BG at spawn tower"}' -H "Content-Type: application/json" http://127.0.0.1:3000/test
-
-
-// TEST REPORT ROUTES
-app.get('/test', function(req, res) {
   console.log(app.locals.exampleQueue);
   console.log("Queue Length: " + app.locals.exampleQueue.length);
 
-  res.render('report', {
-        title: app.locals.exampleQueue.length > 0 ? app.locals.exampleQueue.length + " Reports" : "No Reports",
+  res.render('home', {
+        message: app.locals.message,
+        reportCount: app.locals.exampleQueue.length > 0 ? app.locals.exampleQueue.length + " Report(s)" : "No Reports",
         reports:  app.locals.exampleQueue.reverse()
     });
 });
 
-app.get('/test/json', function(req, res) {
+app.get('/json', function(req, res) {
   res.json(app.locals.exampleQueue.reverse());
 });
 
-app.post('/test', function(req,res) {
+app.get('/submit', function(req, res) {
+  res.redirect('/');
+});
+
+app.post('/submit', function(req,res) {
   var payload = req.body;
   now = new Date();
 
-  if ("user" in payload === true && "report" in payload === true) {
+  if (!payload['user'].isEmpty() && !payload['bg'].isEmpty() && !payload['report'].isEmpty()) {
     console.log('Received: GOOD Report');
     console.log(req.body);
 
     var report = {
       'rawstamp': now.rawstamp(),
       'user': payload['user'],
+      'bg': payload['bg'],
       'report': payload['report'],
       'timestamp': now.timestamp()
     };
@@ -118,14 +110,19 @@ app.post('/test', function(req,res) {
     };
 
     app.locals.exampleQueue.push(report);
-    res.status(200).send('RESPONSE: 200');
+    app.locals.message = "Your report has been successfully created!";
+    res.status(200).redirect('/');
   } else {
     console.log('Received: BAD Report');
     console.log(req.body);
-    res.status(500).send('RESPONSE: 500');
+    app.locals.message = "Please complete all fields.";
+    res.status(500).redirect('/');
   };
 });
 
+
+// EXAMPLE POST request:
+// curl -d '{"user": "Jim Bob", "report": "30 BG at spawn tower"}' -H "Content-Type: application/json" http://127.0.0.1:3000/test
 
 // PING ROUTES (for testing)
 app.get('/ping', function(req, res) {
@@ -135,11 +132,12 @@ app.get('/ping', function(req, res) {
 
 app.post('/ping', function(req, res) {
   console.log('PING received, POST');
+  console.log(req.body);
   res.send('PONG - Method: POST');
 });
 
 
-// START THE SERVER LOOP
+// SERVER SETTINGS
 var server = app.listen(3000, function() {
   var host = server.address().address;
   var port = server.address().port;
