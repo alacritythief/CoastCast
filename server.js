@@ -144,7 +144,7 @@ app.post('/submit', function(req,res) {
 
 
 // EXAMPLE POST request:
-// curl -d '{"user": "Jim Bob", "report": "30 BG at spawn tower"}' -H "Content-Type: application/json" http://127.0.0.1:3000/test
+// curl -d '{"user": "Jim Bob", "bg": "BLUE", "report": "30 BG at spawn tower"}' -H "Content-Type: application/json" http://127.0.0.1:3000/test
 
 // PING ROUTES (for testing)
 app.get('/ping', function(req, res) {
