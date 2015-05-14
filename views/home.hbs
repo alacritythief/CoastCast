@@ -18,12 +18,12 @@
   <input type="submit" value="submit">
 </form>
 
-<h3>Reports:</h3>
+<h3>{{reportType}}</h3>
 <p>{{reportCount}}</p>
 
 {{#each reports}}
   <h2>{{this.rawstamp}}</h2>
   <li>{{this.bg}} BL: {{this.report}}</li>
   <li>Reported by: {{this.user}}</li>
-  <li>{{this.timestamp}}</li>
+  <li>Posted: {{this.timestamp}}</li>
 {{/each}}

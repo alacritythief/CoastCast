@@ -56,6 +56,16 @@ String.prototype.isEmpty = function() {
     return (this.length === 0 || !this.trim());
 };
 
+// Non-Destructive Array swap
+Array.prototype.tempSwap = function() {
+  var results = [];
+  for (var i = 0, j = this.length, k; i < j / 2; i += 1) {
+    k = j - 1 - i;
+    results[i] = this[k];
+    results[k] = this[i];
+  }
+  return results;
+};
 
 // GLOBAL VARS
 app.locals.redbgQueue = [];
@@ -76,13 +86,14 @@ app.get('/', function(req, res) {
 
   res.render('home', {
         message: app.locals.message,
+        reportType: "All Reports",
         reportCount: app.locals.exampleQueue.length > 0 ? app.locals.exampleQueue.length + " Report(s)" : "No Reports",
-        reports:  app.locals.exampleQueue.reverse()
+        reports: app.locals.exampleQueue.tempSwap()
     });
 });
 
 app.get('/json', function(req, res) {
-  res.json(app.locals.exampleQueue.reverse());
+  res.json(app.locals.exampleQueue.tempSwap());
 });
 
 app.get('/submit', function(req, res) {
