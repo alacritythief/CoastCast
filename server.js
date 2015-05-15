@@ -7,6 +7,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var stylus = require('stylus');
 var nib = require('nib');
+var paginate = require('paginate');
 
 // EXPRESS APP
 var app = express();
@@ -87,6 +88,18 @@ Array.prototype.tempSwap = function() {
     results[k] = this[i];
   }
   return results;
+};
+
+// Array Pagination
+Array.prototype.page = function(num) {
+  if (num <= 0) {
+    num = 1;
+  } else {
+    num = num || 1;
+  };
+
+  var pagination = paginate.page(this.length, 20, num);
+  return pagination;
 };
 
 
