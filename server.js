@@ -5,15 +5,20 @@
 // LIBRARIES
 var express = require('express');
 var bodyParser = require('body-parser');
+var session = require('express-session');
+var FileStore = require('session-file-store')(session);
+var cookieParser = require('cookie-parser');
+var csrf = require('csurf');
 var stylus = require('stylus');
 var nib = require('nib');
 var paginate = require('paginate');
+var flash = require('connect-flash');
+var uuid = require('node-uuid');
 
 // EXPRESS APP
 var app = express();
 
 // STYLUS MIDDLEWARE
-
 function compileStylus(str, path) {
   return stylus(str)
     .set('filename', path)
@@ -26,6 +31,32 @@ app.use(express.static(__dirname + '/public'));
 // Use body-parser for parsing requests:
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+// CSRF protection:
+var csrfProtection = csrf({ cookie: true })
+var parseForm = bodyParser.urlencoded({ extended: false })
+
+// Use cookie-parser to utilize cookies, add sessions:
+app.use(cookieParser());
+app.use(session({
+  genid: function(req) {
+    return uuid.v4();
+  },
+  store: new FileStore,
+  secret: 'teporarysecret',
+  resave: true,
+  saveUninitialized: true
+}));
+
+// Use connect-flash for flash messages:
+app.use(flash());
+
+// Error Handling for CSRF:
+app.use(function (err, req, res, next) {
+  if (err.code !== 'EBADCSRFTOKEN') { return next(err) };
+  res.status(403);
+  res.send('Error - Unauthorized form received.');
+});
 
 // TEMPLATE ENGINE - JADE
 app.set('views', './views');
@@ -109,19 +140,18 @@ app.locals.greenbgQueue = [];
 app.locals.bluebgQueue = [];
 app.locals.ebgQueue = [];
 
-app.locals.message = null;
-
 // TEST VAR
 app.locals.exampleQueue = [];
 
 
 // ROUTES
-app.get('/', function(req, res) {
+app.get('/', csrfProtection, function(req, res) {
   console.log(app.locals.exampleQueue);
   console.log("Queue Length: " + app.locals.exampleQueue.length);
 
   res.render('home', {
-        message: app.locals.message,
+        csrfToken: req.csrfToken(),
+        message: req.flash('message'),
         reportType: "All Reports",
         reportCount: app.locals.exampleQueue.length > 0 ? app.locals.exampleQueue.length + " Report(s)" : "No Reports",
         reports: app.locals.exampleQueue.tempSwap()
@@ -136,7 +166,7 @@ app.get('/submit', function(req, res) {
   res.redirect('/');
 });
 
-app.post('/submit', function(req,res) {
+app.post('/submit', parseForm, csrfProtection, function(req,res) {
   var payload = req.body;
   now = new Date();
 
@@ -160,12 +190,12 @@ app.post('/submit', function(req,res) {
     };
 
     app.locals.exampleQueue.push(report);
-    app.locals.message = "<div class='message-green'>Your report has been successfully created!</div>";
+    req.flash("message", "<div class='message-green'>Your report has been successfully created!</div>");
     res.status(200).redirect('/');
   } else {
     console.log('Received: BAD Report');
     console.log(req.body);
-    app.locals.message = "<div class='message-red'>Please complete all fields.</div>";
+    req.flash("message", "<div class='message-red'>Please complete all fields.</div>");
     res.status(500).redirect('/');
   };
 });

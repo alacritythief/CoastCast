@@ -18,10 +18,15 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.12.4",
+    "connect-flash": "^0.1.1",
+    "csurf": "^1.8.2",
     "express": "^4.12.3",
+    "express-session": "^1.11.2",
     "jade": "^1.9.2",
     "nib": "^1.1.0",
+    "node-uuid": "^1.4.3",
     "paginate": "^0.1.1",
+    "session-file-store": "0.0.9",
     "stylus": "^0.51.1"
   }
 }
