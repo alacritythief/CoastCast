@@ -51,13 +51,6 @@ app.use(session({
 // Use connect-flash for flash messages:
 app.use(flash());
 
-// Error Handling for CSRF:
-app.use(function (err, req, res, next) {
-  if (err.code !== 'EBADCSRFTOKEN') { return next(err) };
-  res.status(403);
-  res.send('Error - Unauthorized form received.');
-});
-
 // TEMPLATE ENGINE - JADE
 app.set('views', './views');
 app.set('view engine', 'jade');
@@ -214,6 +207,20 @@ app.post('/ping', function(req, res) {
   console.log('PING received, POST');
   console.log(req.body);
   res.send('PONG - Method: POST');
+});
+
+
+// Error Handling:
+app.use(function (err, req, res, next) {
+  if (err.code !== 'EBADCSRFTOKEN') return next(err);
+  res.status(403);
+  res.send('Error - Unauthorized form received.');
+});
+
+app.use(function(req, res, next) {
+  var err = new Error('Not Found');
+  res.status(404);
+  res.send('Error - 404 - Page not found.');
 });
 
 
