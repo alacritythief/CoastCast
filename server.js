@@ -20,7 +20,7 @@ var uuid = require('node-uuid');
 var app = express();
 
 // CONNECT TO MONGO
-mongoose.connect('mongodb://127.0.0.1/data');
+mongoose.connect('mongodb://127.0.0.1/coastcast');
 
 // STYLUS MIDDLEWARE
 function compileStylus(str, path) {
