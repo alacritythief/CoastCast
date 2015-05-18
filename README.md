@@ -9,6 +9,7 @@ Server Instructions:
 * Make sure [Node.js](https://nodejs.org/) and NPM are installed
 * Clone this repo and go into its folder
 * `npm install` will locally install all required Node modules
+* A `.env` file is needed with a `SECRET_KEY` value, this can be anything for testing purposes.
 * `node server.js` to run the server
 * Go to [localhost:3000](http://localhost:3000/) in your browser
 
@@ -17,9 +18,8 @@ POST Testing:
 
 * Run the server `node server.js`
 * In another terminal window, enter:
-* `curl -d '{"user": "Jim Bob", "report": "30 BG at spawn tower"}' -H "Content-Type: application/json" http://127.0.0.1:3000/test`
-* Go to [localhost:3000/test](http://localhost:3000/test) in your browser to see reports (only 10 are kept for now)
-* Go to [localhost:3000/test/json](http://localhost:3000/test/json) in your browser for JSON serialized reports
+* `curl -d '{"user": "Jim Bob", "report": "30 BG at spawn tower"}' -H "Content-Type: application/json" http://127.0.0.1:3000/ping`
+* Check your server's terminal window to see if the POST was received.
 
 PING Testing:
 -------------
