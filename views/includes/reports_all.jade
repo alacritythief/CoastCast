@@ -1,4 +1,33 @@
-for report in reports
+h2 RED
+
+for report in red
+  .report
+    h3.title #{report.bg} BL: #{report.report}
+    ul
+      li Reported by: #{report.user}
+      li Posted: #{report.timestamp}
+
+h2 GREEN
+
+for report in green
+  .report
+    h3.title #{report.bg} BL: #{report.report}
+    ul
+      li Reported by: #{report.user}
+      li Posted: #{report.timestamp}
+
+h2 BLUE
+
+for report in blue
+  .report
+    h3.title #{report.bg} BL: #{report.report}
+    ul
+      li Reported by: #{report.user}
+      li Posted: #{report.timestamp}
+
+h2 EBG
+
+for report in ebg
   .report
     h3.title #{report.bg} BL: #{report.report}
     ul

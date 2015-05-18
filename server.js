@@ -130,10 +130,35 @@ Array.prototype.page = function(num) {
 
 
 // GLOBAL VARS
-app.locals.redbgQueue = [];
-app.locals.greenbgQueue = [];
-app.locals.bluebgQueue = [];
-app.locals.ebgQueue = [];
+app.locals.redbg = [];
+app.locals.greenbg = [];
+app.locals.bluebg = [];
+app.locals.ebg = [];
+
+// Queue Check
+function queueCheck() {
+  if (app.locals.redbg > 99) {
+    app.locals.redbg.pop();
+  };
+
+  if (app.locals.greenbg > 99) {
+    app.locals.greenbg.pop();
+  };
+
+  if (app.locals.bluebg > 99) {
+    app.locals.bluebg.pop();
+  };
+
+  if (app.locals.ebg > 99) {
+    app.locals.ebg.pop();
+  };
+};
+
+// Total Report Count
+function allReportCount() {
+  return app.locals.redbg.length + app.locals.greenbg.length + app.locals.bluebg.length + app.locals.ebg.length
+};
+
 
 // TEST VAR
 app.locals.exampleQueue = [];
@@ -148,8 +173,11 @@ app.get('/', function(req, res) {
         csrfToken: req.csrfToken(),
         message: req.flash('message'),
         reportType: "All Reports",
-        reportCount: app.locals.exampleQueue.length > 0 ? app.locals.exampleQueue.length + " Report(s)" : "No Reports",
-        reports: app.locals.exampleQueue.tempSwap()
+        reportCount: allReportCount() > 0 ? allReportCount() + " Report(s)" : "No Reports",
+        red: app.locals.redbg.tempSwap(),
+        green: app.locals.greenbg.tempSwap(),
+        blue: app.locals.bluebg.tempSwap(),
+        ebg: app.locals.ebg.tempSwap()
     });
 });
 
@@ -180,11 +208,18 @@ app.post('/submit', function(req,res) {
       'timestamp': now.timestamp()
     };
 
-    if (app.locals.exampleQueue.length > 9) {
-      app.locals.exampleQueue.pop();
+    queueCheck();
+
+    if (payload['bg'] === 'RED') {
+      app.locals.redbg.push(report);
+    } else if (payload['bg'] === 'GREEN') {
+      app.locals.greenbg.push(report);
+    } else if (payload['bg'] === 'BLUE') {
+      app.locals.bluebg.push(report);
+    } else if (payload['bg'] === 'EBG') {
+      app.locals.ebg.push(report);
     };
 
-    app.locals.exampleQueue.push(report);
     req.flash("message", "<div class='message-green'>Your report has been successfully created!</div>");
     res.status(200).redirect('/');
   } else {
