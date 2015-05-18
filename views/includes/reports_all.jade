@@ -1,7 +1,6 @@
 for report in reports
   .report
-    h2.title= report.rawstamp
+    h3.title #{report.bg} BL: #{report.report}
     ul
-      li #{report.bg} BL: #{report.report}
       li Reported by: #{report.user}
       li Posted: #{report.timestamp}

@@ -2,6 +2,9 @@
 // A realtime WvW reporting system for Tarnished Coast, using Node.JS and
 // Express.JS
 
+// Grab settings from .env
+require('dotenv').load();
+
 // LIBRARIES
 var express = require('express');
 var bodyParser = require('body-parser');
@@ -36,10 +39,6 @@ app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-// CSRF protection:
-var csrfProtection = csrf({ cookie: true })
-var parseForm = bodyParser.urlencoded({ extended: false })
-
 // Use cookie-parser to utilize cookies, add sessions:
 app.use(cookieParser());
 app.use(session({
@@ -47,16 +46,16 @@ app.use(session({
     return uuid.v4();
   },
   store: new FileStore(),
-  secret: 'teporarysecret',
+  secret: process.env.SECRET_KEY,
   resave: true,
   saveUninitialized: true
 }));
 
+// CSRF protection:
+app.use(csrf({ cookie: false }));
+
 // Use connect-flash for flash messages:
 app.use(flash());
-
-
-
 
 
 // PROTOTYPES
@@ -141,7 +140,7 @@ app.locals.exampleQueue = [];
 
 
 // ROUTES
-app.get('/', csrfProtection, function(req, res) {
+app.get('/', function(req, res) {
   console.log(app.locals.exampleQueue);
   console.log("Queue Length: " + app.locals.exampleQueue.length);
 
@@ -162,7 +161,7 @@ app.get('/submit', function(req, res) {
   res.redirect('/');
 });
 
-app.post('/submit', parseForm, csrfProtection, function(req,res) {
+app.post('/submit', function(req,res) {
   var payload = req.body;
   now = new Date();
 
