@@ -6,8 +6,7 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var session = require('express-session');
-var mongoose = require('mongoose');
-var MongoStore = require('connect-mongo')(session);
+var FileStore = require('session-file-store')(session);
 var cookieParser = require('cookie-parser');
 var csrf = require('csurf');
 var stylus = require('stylus');
@@ -19,11 +18,12 @@ var uuid = require('node-uuid');
 // EXPRESS APP
 var app = express();
 
-// CONNECT TO MONGO
-mongoose.connect('mongodb://127.0.0.1/coastcast');
+// TEMPLATE ENGINE - JADE
+app.set('views', './views');
+app.set('view engine', 'jade');
 
 // STYLUS MIDDLEWARE
-function compileStylus(str, path) {
+var compileStylus = function(str, path) {
   return stylus(str)
     .set('filename', path)
     .use(nib())
@@ -46,7 +46,7 @@ app.use(session({
   genid: function(req) {
     return uuid.v4();
   },
-  store: new MongoStore({ mongooseConnection: mongoose.connection }),
+  store: new FileStore(),
   secret: 'teporarysecret',
   resave: true,
   saveUninitialized: true
@@ -55,9 +55,8 @@ app.use(session({
 // Use connect-flash for flash messages:
 app.use(flash());
 
-// TEMPLATE ENGINE - JADE
-app.set('views', './views');
-app.set('view engine', 'jade');
+
+
 
 
 // PROTOTYPES
