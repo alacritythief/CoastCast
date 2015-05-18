@@ -2,12 +2,14 @@
 // A realtime WvW reporting system for Tarnished Coast, using Node.JS and
 // Express.JS
 
+// Grab settings from .env
+require('dotenv').load();
+
 // LIBRARIES
 var express = require('express');
 var bodyParser = require('body-parser');
 var session = require('express-session');
-var mongoose = require('mongoose');
-var MongoStore = require('connect-mongo')(session);
+var FileStore = require('session-file-store')(session);
 var cookieParser = require('cookie-parser');
 var csrf = require('csurf');
 var stylus = require('stylus');
@@ -19,11 +21,12 @@ var uuid = require('node-uuid');
 // EXPRESS APP
 var app = express();
 
-// CONNECT TO MONGO
-mongoose.connect('mongodb://127.0.0.1/coastcast');
+// TEMPLATE ENGINE - JADE
+app.set('views', './views');
+app.set('view engine', 'jade');
 
 // STYLUS MIDDLEWARE
-function compileStylus(str, path) {
+var compileStylus = function(str, path) {
   return stylus(str)
     .set('filename', path)
     .use(nib())
@@ -36,28 +39,23 @@ app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-// CSRF protection:
-var csrfProtection = csrf({ cookie: true })
-var parseForm = bodyParser.urlencoded({ extended: false })
-
 // Use cookie-parser to utilize cookies, add sessions:
 app.use(cookieParser());
 app.use(session({
   genid: function(req) {
     return uuid.v4();
   },
-  store: new MongoStore({ mongooseConnection: mongoose.connection }),
-  secret: 'teporarysecret',
+  store: new FileStore(),
+  secret: process.env.SECRET_KEY,
   resave: true,
   saveUninitialized: true
 }));
 
+// CSRF protection:
+app.use(csrf({ cookie: false }));
+
 // Use connect-flash for flash messages:
 app.use(flash());
-
-// TEMPLATE ENGINE - JADE
-app.set('views', './views');
-app.set('view engine', 'jade');
 
 
 // PROTOTYPES
@@ -142,7 +140,7 @@ app.locals.exampleQueue = [];
 
 
 // ROUTES
-app.get('/', csrfProtection, function(req, res) {
+app.get('/', function(req, res) {
   console.log(app.locals.exampleQueue);
   console.log("Queue Length: " + app.locals.exampleQueue.length);
 
@@ -163,7 +161,7 @@ app.get('/submit', function(req, res) {
   res.redirect('/');
 });
 
-app.post('/submit', parseForm, csrfProtection, function(req,res) {
+app.post('/submit', function(req,res) {
   var payload = req.body;
   now = new Date();
 
