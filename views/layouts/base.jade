@@ -6,8 +6,10 @@ html
     link(rel='shortcut icon', href='/favicon.ico')
     
   body
-    .container
+    .header
       h1.logo CoastCast
+    .container
       p!= message
-      
       block content
+    .footer
+      include ../includes/submit
