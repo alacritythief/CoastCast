@@ -10,6 +10,10 @@ body
   font-family Helvetica, Arial, Sans-Serif
   font-size 14px
 
+h1, h2, h3
+  margin 0
+  padding 0
+
 label
   margin-left 1rem
 
@@ -40,8 +44,22 @@ select
   padding .2rem
   margin-left 1rem
 
+.header-container
+  background-color #000
+  position fixed
+  top 0
+  height 2rem
+  padding .5rem
+  width 100%
+
+  .header
+    color #fff
+
+.content
+  margin-top 3rem
+
 .footer
-  background-color #777
+  background-color #555
   padding-top 1rem
   position fixed
   bottom 0
@@ -52,6 +70,18 @@ select
     text-align center
     width 100%
     margin 0 auto
+
+.message-green
+  background-color color-bg-message-green
+  color white
+  font-weight bold
+  padding .5rem
+
+.message-red
+  background-color color-bg-message-red
+  color white
+  font-weight bold
+  padding .5rem
 
 .text-report
   width 15rem
