@@ -195,7 +195,7 @@ th {
   padding: 0;
 }
 body {
-  background-color: #ddd;
+  background-color: #eee;
   font-family: Helvetica, Arial, Sans-Serif;
   font-size: 14px;
 }
@@ -235,19 +235,21 @@ select {
   padding: 0.2rem;
   margin-left: 1rem;
 }
-.header-container {
+.header {
   background-color: #000;
+  color: #fff;
   position: fixed;
   top: 0;
   height: 2rem;
   padding: 0.5rem;
-  width: 100%;
-}
-.header-container .header {
-  color: #fff;
+  width: 99.2%;
 }
 .content {
   margin-top: 3rem;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  text-align: center;
 }
 .footer {
   background-color: #555;
@@ -274,6 +276,64 @@ select {
   font-weight: bold;
   padding: 0.5rem;
 }
+.left {
+  float: left;
+}
+.right {
+  float: right;
+}
+.vmiddle {
+  vertical-align: middle;
+}
+.nav-title {
+  display: inline-block;
+}
 .text-report {
   width: 15rem;
+}
+.report-container-1,
+.report-container-2,
+.report-container-3,
+.report-container-4 {
+  display: inline-table;
+  background-color: #ccc;
+  border-radius: 0.5rem;
+  margin: 1rem;
+  width: 20rem;
+  text-align: left;
+}
+.report-container-1 ul,
+.report-container-2 ul,
+.report-container-3 ul,
+.report-container-4 ul {
+  margin: 0;
+  padding: 0.5rem;
+}
+.report-container-1 ul li,
+.report-container-2 ul li,
+.report-container-3 ul li,
+.report-container-4 ul li {
+  display: table-row;
+  list-style: none;
+}
+.title-red,
+.title-green,
+.title-blue,
+.title-ebg {
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+  color: #fff;
+  padding: 0.5rem;
+}
+.title-red {
+  background-color: #f00;
+}
+.title-green {
+  background-color: #008000;
+}
+.title-blue {
+  background-color: #00f;
+}
+.title-ebg {
+  background-color: #800080;
 }

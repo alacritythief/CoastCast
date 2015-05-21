@@ -1,35 +1,31 @@
-h2 RED
-
-for report in red
-  .report
-    h3.title #{report.bg} BL: #{report.report}
+.report-container-1
+  h2.title-red RED
+  for report in red
     ul
+      li #{report.bg} BL: #{report.report}
       li Reported by: #{report.user}
       li Posted: #{report.timestamp}
 
-h2 GREEN
-
-for report in green
-  .report
-    h3.title #{report.bg} BL: #{report.report}
+.report-container-2
+  h2.title-green GREEN
+  for report in green
     ul
+      li #{report.bg} BL: #{report.report}
       li Reported by: #{report.user}
       li Posted: #{report.timestamp}
 
-h2 BLUE
-
-for report in blue
-  .report
-    h3.title #{report.bg} BL: #{report.report}
+.report-container-3
+  h2.title-blue BLUE
+  for report in blue
     ul
+      li #{report.bg} BL: #{report.report}
       li Reported by: #{report.user}
       li Posted: #{report.timestamp}
 
-h2 EBG
-
-for report in ebg
-  .report
-    h3.title #{report.bg} BL: #{report.report}
+.report-container-4
+  h2.title-ebg EBG
+  for report in ebg
     ul
+      li #{report.bg} BL: #{report.report}
       li Reported by: #{report.user}
       li Posted: #{report.timestamp}

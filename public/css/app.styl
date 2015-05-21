@@ -44,19 +44,21 @@ select
   padding .2rem
   margin-left 1rem
 
-.header-container
+.header
   background-color #000
+  color #fff
   position fixed
   top 0
   height 2rem
-  padding .5rem
-  width 100%
-
-  .header
-    color #fff
+  padding 0.5rem
+  width 100% - 0.8rem
 
 .content
   margin-top 3rem
+  margin-left auto
+  margin-right auto
+  width 100%
+  text-align center
 
 .footer
   background-color #555
@@ -83,8 +85,56 @@ select
   font-weight bold
   padding .5rem
 
+.left
+  float left
+
+.right
+  float right
+
+.vmiddle
+  vertical-align middle
+
+.nav-title
+  display inline-block
+
 .text-report
   width 15rem
+
+// Reports
+
+.report-container-1, .report-container-2, .report-container-3, .report-container-4
+  display inline-table
+  background-color #cc
+  border-radius 0.5rem
+  margin 1rem
+  width 20rem
+  text-align left
+
+  ul
+    margin 0
+    padding 0.5rem
+
+    li
+      display table-row
+      list-style none
+
+.title-red, .title-green, .title-blue, .title-ebg
+  border-top-left-radius 0.5rem
+  border-top-right-radius 0.5rem
+  color white
+  padding 0.5rem
+
+.title-red
+  background-color red
+
+.title-green
+  background-color green
+
+.title-blue
+  background-color blue
+
+.title-ebg
+  background-color purple
 
 
 // old styling
