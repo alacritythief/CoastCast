@@ -124,7 +124,7 @@ Array.prototype.page = function(num) {
     num = num || 1;
   };
 
-  var pagination = paginate.page(this.length, 20, num);
+  var pagination = paginate.page(this.length, 10, num);
   return pagination;
 };
 
@@ -177,16 +177,13 @@ app.get('/', function(req, res) {
         message: req.flash('message'),
         reportType: "All Reports",
         reportCount: allReportCount() > 0 ? allReportCount() + " Report(s)" : "No Reports",
-        red: app.locals.redbg.tempSwap(),
-        green: app.locals.greenbg.tempSwap(),
-        blue: app.locals.bluebg.tempSwap(),
-        ebg: app.locals.ebg.tempSwap()
+        red: app.locals.redbg.tempSwap().slice(0,15),
+        green: app.locals.greenbg.tempSwap().slice(0,15),
+        blue: app.locals.bluebg.tempSwap().slice(0,15),
+        ebg: app.locals.ebg.tempSwap().slice(0,15)
     });
 });
 
-app.get('/json', function(req, res) {
-  res.json(app.locals.exampleQueue.tempSwap());
-});
 
 app.get('/submit', function(req, res) {
   res.redirect('/');
@@ -234,6 +231,25 @@ app.post('/submit', function(req,res) {
     res.status(500).redirect('/');
   };
 });
+
+
+// API
+app.get('/red/json', function(req, res) {
+  res.json(app.locals.redbg.tempSwap());
+});
+
+app.get('/green/json', function(req, res) {
+  res.json(app.locals.greenbg.tempSwap());
+});
+
+app.get('/blue/json', function(req, res) {
+  res.json(app.locals.bluebg.tempSwap());
+});
+
+app.get('/ebg/json', function(req, res) {
+  res.json(app.locals.ebg.tempSwap());
+});
+
 
 
 // EXAMPLE POST request:
