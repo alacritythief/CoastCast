@@ -4,10 +4,11 @@ form(action="/submit", method="post")
   input(type="text", name="user", placeholder="Character Name")
   label(for="bg") Battleground:
   select(name="bg")
-    option(value="RED") Red Borderlands
-    option(value="GREEN") Green Borderlands
-    option(value="BLUE") Blue Borderlands
-    option(value="EBG") Eternal Battlegrounds
+    each bg in ['RED', 'GREEN', 'BLUE', 'EBG']
+      if bg === last_bg
+        option(value="#{bg}", selected="selected") #{bg}
+      else
+        option(value="#{bg}") #{bg}
   label(for="report") Your Report:
-  input(type="text", name="report", placeholder="30 JQ spotted at N outer gate at Hills", class="text-report")
+  input(type="text", name="report", placeholder="30 JQ spotted at N outer gate at Hills", class="report-input")
   input(type="submit", value="submit")

@@ -195,7 +195,7 @@ th {
   padding: 0;
 }
 body {
-  background-color: #eee;
+  background-color: #ddd;
   font-family: Helvetica, Arial, Sans-Serif;
   font-size: 14px;
 }
@@ -205,13 +205,16 @@ h3 {
   margin: 0;
   padding: 0;
 }
-label {
-  margin-left: 1rem;
+hr {
+  border: none;
+  color: #ddd;
+  background-color: #ddd;
+  height: 1px;
 }
 input[type=text] {
   color: #000;
   border: 1px;
-  border-color: 0;
+  border-color: #000;
   border-style: solid;
   border-radius: 0.2rem;
   outline: none;
@@ -229,6 +232,9 @@ input[type=submit] {
   margin-left: 1rem;
   outline: 0 none;
   padding: 0.3rem;
+}
+label {
+  margin-left: 1rem;
 }
 select {
   font-size: 1.5rem;
@@ -252,7 +258,7 @@ select {
   text-align: center;
 }
 .footer {
-  background-color: #555;
+  background-color: #444;
   padding-top: 1rem;
   position: fixed;
   bottom: 0;
@@ -279,30 +285,36 @@ select {
 .nav-title {
   display: inline-block;
 }
-.report-container-1,
-.report-container-2,
-.report-container-3,
-.report-container-4 {
-  display: inline-table;
-  background-color: #ccc;
+.report-wrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.report-grid {
+  background-color: #fff;
   border-radius: 0.5rem;
+  flex: 1;
+  min-width: 300px;
+  max-width: 300px;
   margin: 1rem;
-  width: 20rem;
   text-align: left;
 }
-.report-container-1 ul,
-.report-container-2 ul,
-.report-container-3 ul,
-.report-container-4 ul {
+.report-grid ul {
   margin: 0;
   padding: 0.5rem;
 }
-.report-container-1 ul li,
-.report-container-2 ul li,
-.report-container-3 ul li,
-.report-container-4 ul li {
-  display: table-row;
+.report-grid ul li {
   list-style: none;
+}
+.report-listing:not(:last-child) {
+  border-bottom: 1px solid #ddd;
+}
+.report-input {
+  width: 15rem;
+}
+.report-text {
+  font-weight: bold;
 }
 .title-red,
 .title-green,
@@ -314,14 +326,14 @@ select {
   padding: 0.5rem;
 }
 .title-red {
-  background-color: #f00;
+  background-color: #e54;
 }
 .title-green {
-  background-color: #008000;
+  background-color: #6a8;
 }
 .title-blue {
-  background-color: #00f;
+  background-color: #47d;
 }
 .title-ebg {
-  background-color: #800080;
+  background-color: #302;
 }

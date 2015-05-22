@@ -171,6 +171,7 @@ app.get('/', function(req, res) {
 
   res.render('home', {
         csrfToken: req.csrfToken(),
+        last_bg: req.session['last_bg'] || "",
         message: req.flash('message'),
         reportType: "All Reports",
         reportCount: allReportCount() > 0 ? allReportCount() + " Report(s)" : "No Reports",
@@ -209,6 +210,8 @@ app.post('/submit', function(req,res) {
     };
 
     queueCheck();
+
+    req.session['last_bg'] = payload['bg'];
 
     if (payload['bg'] === 'RED') {
       app.locals.redbg.push(report);

@@ -1,39 +1,45 @@
 mixin report(report)
-  ul
-    li #{report.bg} BL: #{report.report}
-    li Reported by: #{report.user}
-    li Posted: #{report.timestamp}
+  li.report-listing
+    ul
+      li.report-text #{report.report}
+      li Reported by: #{report.user}
+      li Posted: #{report.timestamp}
     
 mixin no-report
-  ul
-    li No reports
+  li
+    ul
+      li No reports
 
 .report-wrapper
-  .report-container-1
+  .report-grid
     h2.title-red RED
-    if report in red
+    ul
       for report in red
         +report(report)
-    else
-      +no-report
+      else
+        +no-report
 
-  .report-container-2
+
+  .report-grid
     h2.title-green GREEN
-    for report in green
-      +report(report)
-    else
-      +no-report
+    ul
+      for report in green
+        +report(report)
+      else
+        +no-report
 
-  .report-container-3
+  .report-grid
     h2.title-blue BLUE
-    for report in blue
-      +report(report)
-    else
-      +no-report
+    ul    
+      for report in blue
+        +report(report)
+      else
+        +no-report
         
-  .report-container-4
+  .report-grid
     h2.title-ebg EBG
-    for report in ebg
-      +report(report)
-    else
-      +no-report
+    ul
+      for report in ebg
+        +report(report)
+      else
+        +no-report
