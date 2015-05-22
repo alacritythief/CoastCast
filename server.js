@@ -166,8 +166,10 @@ app.locals.exampleQueue = [];
 
 // ROUTES
 app.get('/', function(req, res) {
-  console.log(app.locals.exampleQueue);
-  console.log("Queue Length: " + app.locals.exampleQueue.length);
+  console.log("RED Queue LENGTH: " + app.locals.redbg.length);
+  console.log("GREEN Queue LENGTH: " + app.locals.greenbg.length);
+  console.log("BLUE Queue LENGTH: " + app.locals.bluebg.length);
+  console.log("EBG Queue LENGTH: " + app.locals.ebg.length);
 
   res.render('home', {
         csrfToken: req.csrfToken(),
