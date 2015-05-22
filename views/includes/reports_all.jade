@@ -1,31 +1,39 @@
-.report-container-1
-  h2.title-red RED
-  for report in red
-    ul
-      li #{report.bg} BL: #{report.report}
-      li Reported by: #{report.user}
-      li Posted: #{report.timestamp}
+mixin report(report)
+  ul
+    li #{report.bg} BL: #{report.report}
+    li Reported by: #{report.user}
+    li Posted: #{report.timestamp}
+    
+mixin no-report
+  ul
+    li No reports
 
-.report-container-2
-  h2.title-green GREEN
-  for report in green
-    ul
-      li #{report.bg} BL: #{report.report}
-      li Reported by: #{report.user}
-      li Posted: #{report.timestamp}
+.report-wrapper
+  .report-container-1
+    h2.title-red RED
+    if report in red
+      for report in red
+        +report(report)
+    else
+      +no-report
 
-.report-container-3
-  h2.title-blue BLUE
-  for report in blue
-    ul
-      li #{report.bg} BL: #{report.report}
-      li Reported by: #{report.user}
-      li Posted: #{report.timestamp}
+  .report-container-2
+    h2.title-green GREEN
+    for report in green
+      +report(report)
+    else
+      +no-report
 
-.report-container-4
-  h2.title-ebg EBG
-  for report in ebg
-    ul
-      li #{report.bg} BL: #{report.report}
-      li Reported by: #{report.user}
-      li Posted: #{report.timestamp}
+  .report-container-3
+    h2.title-blue BLUE
+    for report in blue
+      +report(report)
+    else
+      +no-report
+        
+  .report-container-4
+    h2.title-ebg EBG
+    for report in ebg
+      +report(report)
+    else
+      +no-report

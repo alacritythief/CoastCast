@@ -276,20 +276,8 @@ select {
   font-weight: bold;
   padding: 0.5rem;
 }
-.left {
-  float: left;
-}
-.right {
-  float: right;
-}
-.vmiddle {
-  vertical-align: middle;
-}
 .nav-title {
   display: inline-block;
-}
-.text-report {
-  width: 15rem;
 }
 .report-container-1,
 .report-container-2,
