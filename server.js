@@ -20,6 +20,8 @@ var uuid = require('node-uuid');
 
 // EXPRESS APP
 var app = express();
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
 
 // TEMPLATE ENGINE - JADE
 app.set('views', './views');
@@ -134,6 +136,7 @@ app.locals.redbg = [];
 app.locals.greenbg = [];
 app.locals.bluebg = [];
 app.locals.ebg = [];
+app.locals.userCount = 0;
 
 // Queue Check
 function queueCheck() {
@@ -177,6 +180,7 @@ app.get('/', function(req, res) {
         message: req.flash('message'),
         reportType: "All Reports",
         reportCount: allReportCount() > 0 ? allReportCount() + " Report(s)" : "No Reports",
+        userCount: app.locals.userCount,
         red: app.locals.redbg.tempSwap().slice(0,15),
         green: app.locals.greenbg.tempSwap().slice(0,15),
         blue: app.locals.bluebg.tempSwap().slice(0,15),
@@ -251,6 +255,16 @@ app.get('/ebg/json', function(req, res) {
 });
 
 
+// Socket.IO
+io.on('connection', function(socket){
+  console.log('a user connected');
+  app.locals.userCount += 1;
+  socket.on('disconnect', function(){
+    console.log('user disconnected');
+    app.locals.userCount -= 1;
+  });
+});
+
 
 // EXAMPLE POST request:
 // curl -d '{"user": "Jim Bob", "bg": "BLUE", "report": "30 BG at spawn tower"}' -H "Content-Type: application/json" http://127.0.0.1:3000/test
@@ -281,11 +295,11 @@ app.use(function(req, res, next) {
   res.send('Error - 404 - Page not found.');
 });
 
-
 // SERVER SETTINGS
-var server = app.listen(3000, function() {
-  var host = server.address().address;
-  var port = server.address().port;
+
+http.listen(3000, function(){
+  var host = http.address().address;
+  var port = http.address().port;
 
   console.log('CoastCast is listening at http://%s:%s', host, port);
 });
