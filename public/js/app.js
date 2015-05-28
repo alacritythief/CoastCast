@@ -12,6 +12,90 @@ $(document).ready(function() {
     $('#usercount').text(msg);
   });
 
+  socket.on('new_report', function(report) {
+    console.log('Confirmed report');
+    console.log(report);
+
+    if (report['bg'] === 'RED') {
+
+      $('#redbg').prepend("<li class='report-listing'><ul><li class='report-text'>" + report['report'] +"</li><li>Reported by: " + report['user'] +"</li><li>Posted: " + report['timestamp'] +"</li></ul></li>");
+      console.log($('#redbg li.report-listing').length);
+
+      $('#redbg li.report-listing:first').animate({
+        color: "#fff",
+        backgroundColor: "#ee5544",
+      }, 1000);
+
+      $('#redbg li.report-listing:first').animate({
+        color: "#000",
+        backgroundColor: "none",
+      }, 500);
+
+      if ($('#redbg li.report-listing').length > 15) {
+        $('#redbg li.report-listing:last').remove();
+      };
+
+    } else if (report['bg'] === 'GREEN') {
+
+      $('#greenbg').prepend("<li class='report-listing'><ul><li class='report-text'>" + report['report'] +"</li><li>Reported by: " + report['user'] +"</li><li>Posted: " + report['timestamp'] +"</li></ul></li>");
+      console.log($('#redbg li.report-listing').length);
+
+      $('#greenbg li.report-listing:first').animate({
+        color: "#fff",
+        backgroundColor: "#66aa88",
+      }, 1000);
+
+      $('#greenbg li.report-listing:first').animate({
+        color: "#000",
+        backgroundColor: "none",
+      }, 500);
+
+      if ($('#greenbg li.report-listing').length > 15) {
+        $('#greenbg li.report-listing:last').remove();
+      };
+
+    } else if (report['bg'] === 'BLUE') {
+
+      $('#bluebg').prepend("<li class='report-listing'><ul><li class='report-text'>" + report['report'] +"</li><li>Reported by: " + report['user'] +"</li><li>Posted: " + report['timestamp'] +"</li></ul></li>");
+      console.log($('#redbg li.report-listing').length);
+
+      $('#bluebg li.report-listing:first').animate({
+        color: "#fff",
+        backgroundColor: "#4477dd",
+      }, 1000);
+
+      $('#bluebg li.report-listing:first').animate({
+        color: "#000",
+        backgroundColor: "none",
+      }, 500);
+
+      if ($('#bluebg li.report-listing').length > 15) {
+        $('#bluebg li.report-listing:last').remove();
+      };
+
+    } else if (report['bg'] === 'EBG') {
+
+      $('#ebg').prepend("<li class='report-listing'><ul><li class='report-text'>" + report['report'] +"</li><li>Reported by: " + report['user'] +"</li><li>Posted: " + report['timestamp'] +"</li></ul></li>");
+      console.log($('#redbg li.report-listing').length);
+
+      $('#ebg li.report-listing:first').animate({
+        color: "#fff",
+        backgroundColor: "#330022",
+      }, 1000);
+
+      $('#ebg li.report-listing:first').animate({
+        color: "#000",
+        backgroundColor: "none",
+      }, 500);
+
+      if ($('#ebg li.report-listing').length > 15) {
+        $('#ebg li.report-listing:last').remove();
+      };
+    };
+
+  });
+
+  // Report Submission
   $('#report-form').submit(function() {
     var reportValues = {};
     $.each($('#report-form').serializeArray(), function(_, kv) {
@@ -25,6 +109,7 @@ $(document).ready(function() {
     });
     console.log(reportValues);
     socket.emit('send_report', reportValues);
+    $(this).closest('form').find("input[type=text], textarea").val("");
     return false;
   });
 

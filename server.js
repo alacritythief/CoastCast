@@ -295,6 +295,8 @@ io.on('connection', function(socket){
 
       console.log('Good report received');
 
+      io.emit('new_report', report);
+
     } else {
 
       console.log('Received: BAD Report');
