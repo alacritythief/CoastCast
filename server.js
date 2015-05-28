@@ -259,9 +259,13 @@ app.get('/ebg/json', function(req, res) {
 io.on('connection', function(socket){
   console.log('a user connected');
   app.locals.userCount += 1;
+  console.log('Current Users:', app.locals.userCount);
+  io.emit('usercount', app.locals.userCount + ' users connected');
   socket.on('disconnect', function(){
     console.log('user disconnected');
     app.locals.userCount -= 1;
+    console.log('Current Users:', app.locals.userCount);
+    io.emit('usercount', app.locals.userCount + ' users connected');
   });
 });
 
