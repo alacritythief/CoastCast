@@ -20,16 +20,7 @@ html
       include ../includes/submit
 
   script(src="https://cdn.socket.io/socket.io-1.3.5.js")
-  script(src="http://code.jquery.com/jquery-1.11.1.js")
-  script(src="http://code.jquery.com/ui/1.11.4/jquery-ui.js")
-  script.
-    var socket = io();
-    socket.on('usercount', function(msg) {
-      $('.message-usercount').animate({
-        backgroundColor: "#666",
-      }, 500);
-      $('.message-usercount').animate({
-        backgroundColor: "#000000",
-      }, 1000);
-      $('#usercount').text(msg);
-    });
+  script(src="http://code.jquery.com/jquery-2.1.4.min.js")
+  script(src="http://code.jquery.com/ui/1.11.4/jquery-ui.min.js")
+  script(src="/js/app.js")
+    

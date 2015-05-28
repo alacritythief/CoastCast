@@ -285,6 +285,7 @@ select {
 }
 .message-usercount {
   background-color: #000;
+  border-radius: 0.5rem;
   color: #fff;
   display: inline-block;
   font-weight: bold;
