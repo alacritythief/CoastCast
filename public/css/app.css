@@ -283,6 +283,13 @@ select {
   font-weight: bold;
   padding: 0.5rem;
 }
+.message-usercount {
+  background-color: #000;
+  color: #fff;
+  display: inline-block;
+  font-weight: bold;
+  padding: 0.5rem;
+}
 .nav-title {
   display: inline-block;
 }
