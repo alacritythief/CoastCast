@@ -257,16 +257,61 @@ app.get('/ebg/json', function(req, res) {
 
 // Socket.IO
 io.on('connection', function(socket){
+
+  // Track when a user connects
   console.log('a user connected');
   app.locals.userCount += 1;
   console.log('Current Users:', app.locals.userCount);
   io.emit('usercount', 'users connected: ' + app.locals.userCount);
+
+  // Receiving reports
+  socket.on('send_report', function(reportValues) {
+
+    now = new Date();
+
+    if (!reportValues['user'].isEmpty() && !reportValues['bg'].isEmpty() && !reportValues['report'].isEmpty()) {
+      console.log('Received: GOOD Report');
+      console.log(reportValues);
+
+      var report = {
+        'rawstamp': now.rawstamp(),
+        'user': reportValues['user'],
+        'bg': reportValues['bg'],
+        'report': reportValues['report'],
+        'timestamp': now.timestamp()
+      };
+
+      queueCheck();
+
+      if (reportValues['bg'] === 'RED') {
+        app.locals.redbg.push(report);
+      } else if (reportValues['bg'] === 'GREEN') {
+        app.locals.greenbg.push(report);
+      } else if (reportValues['bg'] === 'BLUE') {
+        app.locals.bluebg.push(report);
+      } else if (reportValues['bg'] === 'EBG') {
+        app.locals.ebg.push(report);
+      };
+
+      console.log('Good report received');
+
+    } else {
+
+      console.log('Received: BAD Report');
+      console.log(reportValues);
+
+    };
+
+  });
+
+  // Track when a user disconnects
   socket.on('disconnect', function(){
     console.log('user disconnected');
     app.locals.userCount -= 1;
     console.log('Current Users:', app.locals.userCount);
     io.emit('usercount', 'users connected: ' + app.locals.userCount);
   });
+
 });
 
 
