@@ -6,7 +6,7 @@
 // Tags
 
 body
-  background-color color-bg-body
+  background-color bg-body
   font-family Helvetica, Arial, Sans-Serif
   font-size 14px
 
@@ -14,13 +14,16 @@ h1, h2, h3
   margin 0
   padding 0
 
-label
-  margin-left 1rem
+hr
+  border none
+  color bg-body
+  background-color bg-body
+  height 1px
 
 input[type=text]
-  color #000
+  color text-input
   border 1px
-  border-color 000
+  border-color #000
   border-style solid
   border-radius .2rem
   outline none
@@ -34,19 +37,24 @@ input[type=submit]
   border-color #000
   border-style solid
   border-radius .2rem
-  color white
+  color text-title
   margin-left 1rem
   outline 0 none
   padding .3rem
+
+label
+  margin-left 1rem
 
 select
   font-size 1.5rem
   padding .2rem
   margin-left 1rem
 
+// Generic Classes
+
 .header
-  background-color #000
-  color #fff
+  background-color bg-header
+  color text-title
   position fixed
   top 0
   height 2rem
@@ -57,57 +65,53 @@ select
   margin-top 3rem
   margin-left auto
   margin-right auto
+  margin-bottom 3rem
   width 100%
   text-align center
 
 .footer
-  background-color #555
+  background-color bg-footer
   padding-top 1rem
   position fixed
   bottom 0
   width 100%
 
   form
-    color #fff
+    color text-title
     text-align center
     width 100%
     margin 0 auto
 
 .message-green
-  background-color color-bg-message-green
-  color white
+  background-color message-green
+  color text-title
   font-weight bold
   padding .5rem
 
 .message-red
-  background-color color-bg-message-red
-  color white
+  background-color message-red
+  color text-title
   font-weight bold
   padding .5rem
-
-.left
-  float left
-
-.right
-  float right
-
-.vmiddle
-  vertical-align middle
 
 .nav-title
   display inline-block
 
-.text-report
-  width 15rem
-
 // Reports
 
-.report-container-1, .report-container-2, .report-container-3, .report-container-4
-  display inline-table
-  background-color #cc
+.report-wrapper
+  display flex
+  flex-direction row
+  flex-wrap wrap
+  justify-content center
+
+.report-grid
+  background-color bg-report
   border-radius 0.5rem
+  flex 1
+  min-width 300px
+  max-width 300px
   margin 1rem
-  width 20rem
   text-align left
 
   ul
@@ -115,114 +119,31 @@ select
     padding 0.5rem
 
     li
-      display table-row
       list-style none
+
+.report-listing:not(:last-child)
+  border-bottom 1px solid bg-body
+
+.report-input
+  width 15rem
+
+.report-text
+  font-weight bold
 
 .title-red, .title-green, .title-blue, .title-ebg
   border-top-left-radius 0.5rem
   border-top-right-radius 0.5rem
-  color white
+  color text-title
   padding 0.5rem
 
 .title-red
-  background-color red
+  background-color bg-red
 
 .title-green
-  background-color green
+  background-color bg-green
 
 .title-blue
-  background-color blue
+  background-color bg-blue
 
 .title-ebg
-  background-color purple
-
-
-// old styling
-
-// html
-//   height 100%
-//
-// body
-//   background-color color-bg-body
-//   font-family Helvetica, Arial, Sans-Serif
-//   font-size 14px
-//   height 100%
-//
-// h1, h2, h3
-//   margin 0
-//   padding 0
-//
-// input, label
-//   display block
-//
-// input[type=text]
-//   border 1px
-//   border-color 000
-//   border-style solid
-//   border-radius .2rem
-//   outline none
-//   margin-bottom 1rem
-//   padding .3rem
-//   width 98%
-//
-// input[type=submit]
-//   background-color black
-//   border 1px
-//   border-color 000
-//   border-style solid
-//   border-radius .2rem
-//   color white
-//   margin-top .5rem
-//   outline 0 none
-//   padding .5rem
-//
-// select
-//   font-size 1.5rem
-//   padding .2rem
-//   margin-bottom 1rem
-//
-// // Classes
-//
-// .container
-//   background-color color-bg-container
-//   height 100%
-//   margin 0 auto
-//   max-width 650px
-//   padding .5rem
-//
-//   h3
-//     margin-top 1rem
-//     margin-bottom .5rem
-//
-// .logo
-//   background-color color-bg-title
-//   color color-text-title
-//   padding 1rem
-//   text-align center
-//
-// .message-green
-//   background-color color-bg-message-green
-//   color white
-//   font-weight bold
-//   padding .5rem
-//
-// .message-red
-//   background-color color-bg-message-red
-//   color white
-//   font-weight bold
-//   padding .5rem
-//
-// .report
-//   background-color color-bg-report
-//
-//   .title
-//     background-color color-bg-title
-//     color color-text-title
-//     padding .5rem
-//
-//   ul
-//     margin 0 0 1rem 0
-//     padding 0 0 .5rem .5rem
-//
-//     li
-//       list-style none
+  background-color bg-ebg

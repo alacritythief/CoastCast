@@ -20,6 +20,8 @@ var uuid = require('node-uuid');
 
 // EXPRESS APP
 var app = express();
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
 
 // TEMPLATE ENGINE - JADE
 app.set('views', './views');
@@ -124,7 +126,7 @@ Array.prototype.page = function(num) {
     num = num || 1;
   };
 
-  var pagination = paginate.page(this.length, 20, num);
+  var pagination = paginate.page(this.length, 10, num);
   return pagination;
 };
 
@@ -134,6 +136,7 @@ app.locals.redbg = [];
 app.locals.greenbg = [];
 app.locals.bluebg = [];
 app.locals.ebg = [];
+app.locals.userCount = 0;
 
 // Queue Check
 function queueCheck() {
@@ -166,24 +169,25 @@ app.locals.exampleQueue = [];
 
 // ROUTES
 app.get('/', function(req, res) {
-  console.log(app.locals.exampleQueue);
-  console.log("Queue Length: " + app.locals.exampleQueue.length);
+  console.log("RED Queue LENGTH: " + app.locals.redbg.length);
+  console.log("GREEN Queue LENGTH: " + app.locals.greenbg.length);
+  console.log("BLUE Queue LENGTH: " + app.locals.bluebg.length);
+  console.log("EBG Queue LENGTH: " + app.locals.ebg.length);
 
   res.render('home', {
         csrfToken: req.csrfToken(),
+        last_bg: req.session['last_bg'] || "",
         message: req.flash('message'),
         reportType: "All Reports",
         reportCount: allReportCount() > 0 ? allReportCount() + " Report(s)" : "No Reports",
-        red: app.locals.redbg.tempSwap(),
-        green: app.locals.greenbg.tempSwap(),
-        blue: app.locals.bluebg.tempSwap(),
-        ebg: app.locals.ebg.tempSwap()
+        userCount: app.locals.userCount,
+        red: app.locals.redbg.tempSwap().slice(0,15),
+        green: app.locals.greenbg.tempSwap().slice(0,15),
+        blue: app.locals.bluebg.tempSwap().slice(0,15),
+        ebg: app.locals.ebg.tempSwap().slice(0,15)
     });
 });
 
-app.get('/json', function(req, res) {
-  res.json(app.locals.exampleQueue.tempSwap());
-});
 
 app.get('/submit', function(req, res) {
   res.redirect('/');
@@ -210,6 +214,8 @@ app.post('/submit', function(req,res) {
 
     queueCheck();
 
+    req.session['last_bg'] = payload['bg'];
+
     if (payload['bg'] === 'RED') {
       app.locals.redbg.push(report);
     } else if (payload['bg'] === 'GREEN') {
@@ -228,6 +234,39 @@ app.post('/submit', function(req,res) {
     req.flash("message", "<div class='message-red'>Please complete all fields.</div>");
     res.status(500).redirect('/');
   };
+});
+
+
+// API
+app.get('/red/json', function(req, res) {
+  res.json(app.locals.redbg.tempSwap());
+});
+
+app.get('/green/json', function(req, res) {
+  res.json(app.locals.greenbg.tempSwap());
+});
+
+app.get('/blue/json', function(req, res) {
+  res.json(app.locals.bluebg.tempSwap());
+});
+
+app.get('/ebg/json', function(req, res) {
+  res.json(app.locals.ebg.tempSwap());
+});
+
+
+// Socket.IO
+io.on('connection', function(socket){
+  console.log('a user connected');
+  app.locals.userCount += 1;
+  console.log('Current Users:', app.locals.userCount);
+  io.emit('usercount', app.locals.userCount + ' users connected');
+  socket.on('disconnect', function(){
+    console.log('user disconnected');
+    app.locals.userCount -= 1;
+    console.log('Current Users:', app.locals.userCount);
+    io.emit('usercount', app.locals.userCount + ' users connected');
+  });
 });
 
 
@@ -260,11 +299,11 @@ app.use(function(req, res, next) {
   res.send('Error - 404 - Page not found.');
 });
 
-
 // SERVER SETTINGS
-var server = app.listen(3000, function() {
-  var host = server.address().address;
-  var port = server.address().port;
+
+http.listen(3000, function(){
+  var host = http.address().address;
+  var port = http.address().port;
 
   console.log('CoastCast is listening at http://%s:%s', host, port);
 });
