@@ -169,23 +169,18 @@ app.locals.exampleQueue = [];
 
 // ROUTES
 app.get('/', function(req, res) {
-  console.log("RED Queue LENGTH: " + app.locals.redbg.length);
-  console.log("GREEN Queue LENGTH: " + app.locals.greenbg.length);
-  console.log("BLUE Queue LENGTH: " + app.locals.bluebg.length);
-  console.log("EBG Queue LENGTH: " + app.locals.ebg.length);
-
   res.render('home', {
-        csrfToken: req.csrfToken(),
-        last_bg: req.session['last_bg'] || "",
-        message: req.flash('message'),
-        reportType: "All Reports",
-        reportCount: allReportCount() > 0 ? allReportCount() + " Report(s)" : "No Reports",
-        userCount: app.locals.userCount,
-        red: app.locals.redbg.tempSwap().slice(0,10),
-        green: app.locals.greenbg.tempSwap().slice(0,10),
-        blue: app.locals.bluebg.tempSwap().slice(0,10),
-        ebg: app.locals.ebg.tempSwap().slice(0,10)
-    });
+    csrfToken: req.csrfToken(),
+    last_bg: req.session['last_bg'] || "",
+    message: req.flash('message'),
+    reportType: "All Reports",
+    reportCount: allReportCount() > 0 ? allReportCount() + " Report(s)" : "No Reports",
+    userCount: app.locals.userCount,
+    red: app.locals.redbg.tempSwap().slice(0,10),
+    green: app.locals.greenbg.tempSwap().slice(0,10),
+    blue: app.locals.bluebg.tempSwap().slice(0,10),
+    ebg: app.locals.ebg.tempSwap().slice(0,10)
+  });
 });
 
 
@@ -226,13 +221,11 @@ app.post('/submit', function(req,res) {
       app.locals.ebg.push(report);
     };
 
-    req.flash("message", "<div class='message-green'>Your report has been successfully created!</div>");
-    res.status(200).redirect('/');
+    res.status(200).send(report);
   } else {
     console.log('Received: BAD Report');
     console.log(req.body);
-    req.flash("message", "<div class='message-red'>Please complete all fields.</div>");
-    res.status(500).redirect('/');
+    res.status(500);
   };
 });
 
@@ -292,8 +285,6 @@ io.on('connection', function(socket){
       } else if (reportValues['bg'] === 'EBG') {
         app.locals.ebg.push(report);
       };
-
-      console.log('Good report received');
 
       io.emit('new_report', report);
 

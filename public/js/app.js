@@ -1,7 +1,14 @@
 $(document).ready(function() {
 
+  // Checks if string is empty
+  String.prototype.isEmpty = function() {
+      return (this.length === 0 || !this.trim());
+  };
+
+  // Initialize Socket.io
   var socket = io();
 
+  // Update Usercount
   socket.on('usercount', function(msg) {
     $('.message-usercount').animate({
       backgroundColor: "#666",
@@ -12,6 +19,7 @@ $(document).ready(function() {
     $('#usercount').text(msg);
   });
 
+  // Report Updating
   socket.on('new_report', function(report) {
     console.log('Confirmed report');
     console.log(report);
@@ -95,9 +103,10 @@ $(document).ready(function() {
 
   });
 
-  // Report Submission
+  // Report Submission & Validation
   $('#report-form').submit(function() {
     var reportValues = {};
+
     $.each($('#report-form').serializeArray(), function(_, kv) {
       if (reportValues.hasOwnProperty(kv.name)) {
         reportValues[kv.name] = $.makeArray(reportValues[kv.name]);
@@ -107,10 +116,25 @@ $(document).ready(function() {
         reportValues[kv.name] = kv.value;
       }
     });
-    console.log(reportValues);
-    socket.emit('send_report', reportValues);
-    $(this).closest('form').find("input[type=text], textarea").val("");
-    return false;
+
+    // Validate Report
+    if (!reportValues['user'].isEmpty() && !reportValues['bg'].isEmpty() && !reportValues['report'].isEmpty()) {
+
+      console.log('good report');
+      console.log(reportValues);
+      socket.emit('send_report', reportValues);
+      $(this).closest('form').find("input[type=text], textarea").val("");
+      return false;
+
+    } else {
+
+      console.log("bad report");
+      console.log(reportValues);
+      $(this).closest('form').find("input[type=text], textarea").val("");
+      return false;
+
+    };
+
   });
 
 
