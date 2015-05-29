@@ -21,13 +21,9 @@ $(document).ready(function() {
 
   // Report Updating
   socket.on('new_report', function(report) {
-    console.log('Confirmed report');
-    console.log(report);
-
     if (report['bg'] === 'RED') {
 
       $('#redbg').prepend("<li class='report-listing'><ul><li class='report-text'>" + report['report'] +"</li><li>Reported by: " + report['user'] +"</li><li>Posted: " + report['timestamp'] +"</li></ul></li>");
-      console.log($('#redbg li.report-listing').length);
 
       $('#redbg li.report-listing:first').animate({
         color: "#fff",
@@ -46,7 +42,6 @@ $(document).ready(function() {
     } else if (report['bg'] === 'GREEN') {
 
       $('#greenbg').prepend("<li class='report-listing'><ul><li class='report-text'>" + report['report'] +"</li><li>Reported by: " + report['user'] +"</li><li>Posted: " + report['timestamp'] +"</li></ul></li>");
-      console.log($('#redbg li.report-listing').length);
 
       $('#greenbg li.report-listing:first').animate({
         color: "#fff",
@@ -65,7 +60,6 @@ $(document).ready(function() {
     } else if (report['bg'] === 'BLUE') {
 
       $('#bluebg').prepend("<li class='report-listing'><ul><li class='report-text'>" + report['report'] +"</li><li>Reported by: " + report['user'] +"</li><li>Posted: " + report['timestamp'] +"</li></ul></li>");
-      console.log($('#redbg li.report-listing').length);
 
       $('#bluebg li.report-listing:first').animate({
         color: "#fff",
@@ -84,7 +78,6 @@ $(document).ready(function() {
     } else if (report['bg'] === 'EBG') {
 
       $('#ebg').prepend("<li class='report-listing'><ul><li class='report-text'>" + report['report'] +"</li><li>Reported by: " + report['user'] +"</li><li>Posted: " + report['timestamp'] +"</li></ul></li>");
-      console.log($('#redbg li.report-listing').length);
 
       $('#ebg li.report-listing:first').animate({
         color: "#fff",

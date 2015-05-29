@@ -252,9 +252,7 @@ app.get('/ebg/json', function(req, res) {
 io.on('connection', function(socket){
 
   // Track when a user connects
-  console.log('a user connected');
   app.locals.userCount += 1;
-  console.log('Current Users:', app.locals.userCount);
   io.emit('usercount', 'users connected: ' + app.locals.userCount);
 
   // Receiving reports
@@ -299,9 +297,7 @@ io.on('connection', function(socket){
 
   // Track when a user disconnects
   socket.on('disconnect', function(){
-    console.log('user disconnected');
     app.locals.userCount -= 1;
-    console.log('Current Users:', app.locals.userCount);
     io.emit('usercount', 'users connected: ' + app.locals.userCount);
   });
 
