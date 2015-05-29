@@ -13,33 +13,24 @@ mixin no-report
 .report-wrapper
   .report-grid
     h2.title-red RED
-    ul
+    ul#redbg
       for report in red
         +report(report)
-      else
-        +no-report
-
 
   .report-grid
     h2.title-green GREEN
-    ul
+    ul#greenbg
       for report in green
         +report(report)
-      else
-        +no-report
 
   .report-grid
     h2.title-blue BLUE
-    ul    
+    ul#bluebg
       for report in blue
         +report(report)
-      else
-        +no-report
         
   .report-grid
     h2.title-ebg EBG
-    ul
+    ul#ebg
       for report in ebg
         +report(report)
-      else
-        +no-report

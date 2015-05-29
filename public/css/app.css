@@ -283,6 +283,14 @@ select {
   font-weight: bold;
   padding: 0.5rem;
 }
+.message-usercount {
+  background-color: #000;
+  border-radius: 0.5rem;
+  color: #fff;
+  display: inline-block;
+  font-weight: bold;
+  padding: 0.5rem;
+}
 .nav-title {
   display: inline-block;
 }
@@ -291,6 +299,7 @@ select {
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
+  align-items: flex-start;
 }
 .report-grid {
   background-color: #fff;
@@ -306,6 +315,7 @@ select {
   padding: 0.5rem;
 }
 .report-grid ul li {
+  border-radius: 0.5rem;
   list-style: none;
 }
 .report-listing:not(:last-child) {

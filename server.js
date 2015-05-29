@@ -169,23 +169,18 @@ app.locals.exampleQueue = [];
 
 // ROUTES
 app.get('/', function(req, res) {
-  console.log("RED Queue LENGTH: " + app.locals.redbg.length);
-  console.log("GREEN Queue LENGTH: " + app.locals.greenbg.length);
-  console.log("BLUE Queue LENGTH: " + app.locals.bluebg.length);
-  console.log("EBG Queue LENGTH: " + app.locals.ebg.length);
-
   res.render('home', {
-        csrfToken: req.csrfToken(),
-        last_bg: req.session['last_bg'] || "",
-        message: req.flash('message'),
-        reportType: "All Reports",
-        reportCount: allReportCount() > 0 ? allReportCount() + " Report(s)" : "No Reports",
-        userCount: app.locals.userCount,
-        red: app.locals.redbg.tempSwap().slice(0,15),
-        green: app.locals.greenbg.tempSwap().slice(0,15),
-        blue: app.locals.bluebg.tempSwap().slice(0,15),
-        ebg: app.locals.ebg.tempSwap().slice(0,15)
-    });
+    csrfToken: req.csrfToken(),
+    last_bg: req.session['last_bg'] || "",
+    message: req.flash('message'),
+    reportType: "All Reports",
+    reportCount: allReportCount() > 0 ? allReportCount() + " Report(s)" : "No Reports",
+    userCount: app.locals.userCount,
+    red: app.locals.redbg.tempSwap().slice(0,10),
+    green: app.locals.greenbg.tempSwap().slice(0,10),
+    blue: app.locals.bluebg.tempSwap().slice(0,10),
+    ebg: app.locals.ebg.tempSwap().slice(0,10)
+  });
 });
 
 
@@ -226,13 +221,11 @@ app.post('/submit', function(req,res) {
       app.locals.ebg.push(report);
     };
 
-    req.flash("message", "<div class='message-green'>Your report has been successfully created!</div>");
-    res.status(200).redirect('/');
+    res.status(200).send(report);
   } else {
     console.log('Received: BAD Report');
     console.log(req.body);
-    req.flash("message", "<div class='message-red'>Please complete all fields.</div>");
-    res.status(500).redirect('/');
+    res.status(500);
   };
 });
 
@@ -257,16 +250,57 @@ app.get('/ebg/json', function(req, res) {
 
 // Socket.IO
 io.on('connection', function(socket){
-  console.log('a user connected');
+
+  // Track when a user connects
   app.locals.userCount += 1;
-  console.log('Current Users:', app.locals.userCount);
-  io.emit('usercount', app.locals.userCount + ' users connected');
-  socket.on('disconnect', function(){
-    console.log('user disconnected');
-    app.locals.userCount -= 1;
-    console.log('Current Users:', app.locals.userCount);
-    io.emit('usercount', app.locals.userCount + ' users connected');
+  io.emit('usercount', 'users connected: ' + app.locals.userCount);
+
+  // Receiving reports
+  socket.on('send_report', function(reportValues) {
+
+    now = new Date();
+
+    if (!reportValues['user'].isEmpty() && !reportValues['bg'].isEmpty() && !reportValues['report'].isEmpty()) {
+      console.log('Received: GOOD Report');
+      console.log(reportValues);
+
+      var report = {
+        'rawstamp': now.rawstamp(),
+        'user': reportValues['user'],
+        'bg': reportValues['bg'],
+        'report': reportValues['report'],
+        'timestamp': now.timestamp()
+      };
+
+      queueCheck();
+
+      if (reportValues['bg'] === 'RED') {
+        app.locals.redbg.push(report);
+      } else if (reportValues['bg'] === 'GREEN') {
+        app.locals.greenbg.push(report);
+      } else if (reportValues['bg'] === 'BLUE') {
+        app.locals.bluebg.push(report);
+      } else if (reportValues['bg'] === 'EBG') {
+        app.locals.ebg.push(report);
+      };
+
+      io.emit('new_report', report);
+
+    } else {
+
+      console.log('Received: BAD Report');
+      console.log(reportValues);
+
+    };
+
   });
+
+  // Track when a user disconnects
+  socket.on('disconnect', function(){
+    app.locals.userCount -= 1;
+    io.emit('usercount', 'users connected: ' + app.locals.userCount);
+  });
+
 });
 
 

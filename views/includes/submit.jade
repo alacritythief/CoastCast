@@ -1,5 +1,4 @@
-form(action="/submit", method="post")
-  input(type="hidden" name="_csrf" value="#{csrfToken}")
+form#report-form
   label(for="user") Name:
   input(type="text", name="user", placeholder="Character Name")
   label(for="bg") Battleground:
@@ -10,5 +9,5 @@ form(action="/submit", method="post")
       else
         option(value="#{bg}") #{bg}
   label(for="report") Your Report:
-  input(type="text", name="report", placeholder="30 JQ spotted at N outer gate at Hills", class="report-input")
+  input(type="text", name="report", placeholder="30 JQ spotted at N outer gate at Hills", maxlength="180", class="report-input")
   input(type="submit", value="submit")
