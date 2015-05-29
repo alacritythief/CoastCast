@@ -31,7 +31,7 @@ $(document).ready(function() {
         backgroundColor: "none",
       }, 500);
 
-      if ($('#redbg li.report-listing').length > 15) {
+      if ($('#redbg li.report-listing').length > 10) {
         $('#redbg li.report-listing:last').remove();
       };
 
@@ -50,7 +50,7 @@ $(document).ready(function() {
         backgroundColor: "none",
       }, 500);
 
-      if ($('#greenbg li.report-listing').length > 15) {
+      if ($('#greenbg li.report-listing').length > 10) {
         $('#greenbg li.report-listing:last').remove();
       };
 
@@ -69,7 +69,7 @@ $(document).ready(function() {
         backgroundColor: "none",
       }, 500);
 
-      if ($('#bluebg li.report-listing').length > 15) {
+      if ($('#bluebg li.report-listing').length > 10) {
         $('#bluebg li.report-listing:last').remove();
       };
 
@@ -88,7 +88,7 @@ $(document).ready(function() {
         backgroundColor: "none",
       }, 500);
 
-      if ($('#ebg li.report-listing').length > 15) {
+      if ($('#ebg li.report-listing').length > 10) {
         $('#ebg li.report-listing:last').remove();
       };
     };

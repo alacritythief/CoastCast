@@ -181,10 +181,10 @@ app.get('/', function(req, res) {
         reportType: "All Reports",
         reportCount: allReportCount() > 0 ? allReportCount() + " Report(s)" : "No Reports",
         userCount: app.locals.userCount,
-        red: app.locals.redbg.tempSwap().slice(0,15),
-        green: app.locals.greenbg.tempSwap().slice(0,15),
-        blue: app.locals.bluebg.tempSwap().slice(0,15),
-        ebg: app.locals.ebg.tempSwap().slice(0,15)
+        red: app.locals.redbg.tempSwap().slice(0,10),
+        green: app.locals.greenbg.tempSwap().slice(0,10),
+        blue: app.locals.bluebg.tempSwap().slice(0,10),
+        ebg: app.locals.ebg.tempSwap().slice(0,10)
     });
 });
 
