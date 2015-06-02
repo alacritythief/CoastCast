@@ -23,15 +23,18 @@ $(document).ready(function() {
   socket.on('new_report', function(report) {
     if (report['bg'] === 'RED') {
 
-      $('#redbg').prepend("<li class='report-listing'><ul><li class='report-text'>" + report['report'] +"</li><li>Reported by: " + report['user'] +"</li><li>Posted: " + report['timestamp'] +"</li></ul></li>");
-      $('#redbg li.report-listing:first').animate({
-        color: "#fff",
-        backgroundColor: "#ee5544",
-      }, 1000);
-      $('#redbg li.report-listing:first').animate({
-        color: "#000",
-        backgroundColor: "none",
-      }, 500);
+      $('#redbg')
+        .prepend("<li class='report-listing'><ul><li class='report-text'>" + report['report'] +"</li><li>Reported by: " + report['user'] +"</li><li>Posted: " + report['timestamp'] +"</li></ul></li>");
+      $('#redbg li.report-listing:first')
+        .animate({
+          color: "#fff",
+          backgroundColor: "#ee5544",
+        }, 1000);
+      $('#redbg li.report-listing:first')
+        .animate({
+          color: "#000",
+          backgroundColor: "none",
+        }, 500);
 
       if ($('#redbg li.report-listing').length > 10) {
         $('#redbg li.report-listing:last').remove();
@@ -40,14 +43,16 @@ $(document).ready(function() {
     } else if (report['bg'] === 'GREEN') {
 
       $('#greenbg').prepend("<li class='report-listing'><ul><li class='report-text'>" + report['report'] +"</li><li>Reported by: " + report['user'] +"</li><li>Posted: " + report['timestamp'] +"</li></ul></li>");
-      $('#greenbg li.report-listing:first').animate({
-        color: "#fff",
-        backgroundColor: "#66aa88",
-      }, 1000);
-      $('#greenbg li.report-listing:first').animate({
-        color: "#000",
-        backgroundColor: "none",
-      }, 500);
+      $('#greenbg li.report-listing:first')
+        .animate({
+          color: "#fff",
+          backgroundColor: "#66aa88",
+        }, 1000);
+      $('#greenbg li.report-listing:first')
+        .animate({
+          color: "#000",
+          backgroundColor: "none",
+        }, 500);
 
       if ($('#greenbg li.report-listing').length > 10) {
         $('#greenbg li.report-listing:last').remove();
@@ -56,14 +61,16 @@ $(document).ready(function() {
     } else if (report['bg'] === 'BLUE') {
 
       $('#bluebg').prepend("<li class='report-listing'><ul><li class='report-text'>" + report['report'] +"</li><li>Reported by: " + report['user'] +"</li><li>Posted: " + report['timestamp'] +"</li></ul></li>");
-      $('#bluebg li.report-listing:first').animate({
-        color: "#fff",
-        backgroundColor: "#4477dd",
-      }, 1000);
-      $('#bluebg li.report-listing:first').animate({
-        color: "#000",
-        backgroundColor: "none",
-      }, 500);
+      $('#bluebg li.report-listing:first')
+        .animate({
+          color: "#fff",
+          backgroundColor: "#4477dd",
+        }, 1000);
+      $('#bluebg li.report-listing:first')
+        .animate({
+          color: "#000",
+          backgroundColor: "none",
+        }, 500);
 
       if ($('#bluebg li.report-listing').length > 10) {
         $('#bluebg li.report-listing:last').remove();
@@ -72,14 +79,16 @@ $(document).ready(function() {
     } else if (report['bg'] === 'EBG') {
 
       $('#ebg').prepend("<li class='report-listing'><ul><li class='report-text'>" + report['report'] +"</li><li>Reported by: " + report['user'] +"</li><li>Posted: " + report['timestamp'] +"</li></ul></li>");
-      $('#ebg li.report-listing:first').animate({
-        color: "#fff",
-        backgroundColor: "#330022",
-      }, 1000);
-      $('#ebg li.report-listing:first').animate({
-        color: "#000",
-        backgroundColor: "none",
-      }, 500);
+      $('#ebg li.report-listing:first')
+        .animate({
+          color: "#fff",
+          backgroundColor: "#330022",
+        }, 1000);
+      $('#ebg li.report-listing:first')
+        .animate({
+          color: "#000",
+          backgroundColor: "none",
+        }, 500);
 
       if ($('#ebg li.report-listing').length > 10) {
         $('#ebg li.report-listing:last').remove();

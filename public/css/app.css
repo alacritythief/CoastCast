@@ -256,13 +256,15 @@ select {
   text-align: center;
 }
 .footer {
-  background-color: #444;
-  padding-top: 1rem;
   position: fixed;
   bottom: 0;
   width: 100%;
 }
-.footer form {
+.submit-form {
+  background-color: #444;
+  padding-top: 1rem;
+}
+.submit-form form {
   color: #fff;
   text-align: center;
   width: 100%;
