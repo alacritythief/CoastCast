@@ -116,6 +116,12 @@ $(document).ready(function() {
       console.log('good report');
       console.log(reportValues);
       socket.emit('send_report', reportValues);
+      $('.message')
+        .fadeIn("slow")
+        .addClass('message-green')
+        .text('Your report has been successfully created!')
+        .delay("3000").fadeOut("slow")
+        .queue(function() { $(this).removeClass('message-green'); $(this).dequeue() });
       $(this).closest('form').find("input[type=text], textarea").val("");
       return false;
 
@@ -123,6 +129,12 @@ $(document).ready(function() {
 
       console.log("bad report");
       console.log(reportValues);
+      $('.message')
+        .fadeIn("slow")
+        .addClass('message-red')
+        .text('Please Complete All Fields.')
+        .delay("3000").fadeOut("slow")
+        .queue(function() { $(this).removeClass('message-red'); $(this).dequeue() });
       $(this).closest('form').find("input[type=text], textarea").val("");
       return false;
 

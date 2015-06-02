@@ -251,10 +251,7 @@ select {
   width: 99.2%;
 }
 .content {
-  margin-top: 3rem;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 3rem;
+  margin: 3rem auto 3rem auto;
   width: 100%;
   text-align: center;
 }
@@ -270,6 +267,12 @@ select {
   text-align: center;
   width: 100%;
   margin: 0 auto;
+}
+.message {
+  display: none;
+  padding: 0;
+  width: 100%;
+  text-align: center;
 }
 .message-green {
   background-color: #03c385;
