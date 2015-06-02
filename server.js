@@ -55,9 +55,6 @@ app.use(session({
 // CSRF protection:
 app.use(csrf({ cookie: false }));
 
-// Use connect-flash for flash messages:
-app.use(flash());
-
 
 // PROTOTYPES
 
