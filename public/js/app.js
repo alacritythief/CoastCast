@@ -24,12 +24,10 @@ $(document).ready(function() {
     if (report['bg'] === 'RED') {
 
       $('#redbg').prepend("<li class='report-listing'><ul><li class='report-text'>" + report['report'] +"</li><li>Reported by: " + report['user'] +"</li><li>Posted: " + report['timestamp'] +"</li></ul></li>");
-
       $('#redbg li.report-listing:first').animate({
         color: "#fff",
         backgroundColor: "#ee5544",
       }, 1000);
-
       $('#redbg li.report-listing:first').animate({
         color: "#000",
         backgroundColor: "none",
@@ -42,12 +40,10 @@ $(document).ready(function() {
     } else if (report['bg'] === 'GREEN') {
 
       $('#greenbg').prepend("<li class='report-listing'><ul><li class='report-text'>" + report['report'] +"</li><li>Reported by: " + report['user'] +"</li><li>Posted: " + report['timestamp'] +"</li></ul></li>");
-
       $('#greenbg li.report-listing:first').animate({
         color: "#fff",
         backgroundColor: "#66aa88",
       }, 1000);
-
       $('#greenbg li.report-listing:first').animate({
         color: "#000",
         backgroundColor: "none",
@@ -60,12 +56,10 @@ $(document).ready(function() {
     } else if (report['bg'] === 'BLUE') {
 
       $('#bluebg').prepend("<li class='report-listing'><ul><li class='report-text'>" + report['report'] +"</li><li>Reported by: " + report['user'] +"</li><li>Posted: " + report['timestamp'] +"</li></ul></li>");
-
       $('#bluebg li.report-listing:first').animate({
         color: "#fff",
         backgroundColor: "#4477dd",
       }, 1000);
-
       $('#bluebg li.report-listing:first').animate({
         color: "#000",
         backgroundColor: "none",
@@ -78,12 +72,10 @@ $(document).ready(function() {
     } else if (report['bg'] === 'EBG') {
 
       $('#ebg').prepend("<li class='report-listing'><ul><li class='report-text'>" + report['report'] +"</li><li>Reported by: " + report['user'] +"</li><li>Posted: " + report['timestamp'] +"</li></ul></li>");
-
       $('#ebg li.report-listing:first').animate({
         color: "#fff",
         backgroundColor: "#330022",
       }, 1000);
-
       $('#ebg li.report-listing:first').animate({
         color: "#000",
         backgroundColor: "none",
@@ -93,7 +85,6 @@ $(document).ready(function() {
         $('#ebg li.report-listing:last').remove();
       };
     };
-
   });
 
   // Report Submission & Validation
@@ -112,35 +103,31 @@ $(document).ready(function() {
 
     // Validate Report
     if (!reportValues['user'].isEmpty() && !reportValues['bg'].isEmpty() && !reportValues['report'].isEmpty()) {
-
-      console.log('good report');
-      console.log(reportValues);
       socket.emit('send_report', reportValues);
       $('.message')
         .fadeIn("slow")
         .addClass('message-green')
         .text('Your report has been successfully created!')
-        .delay("3000").fadeOut("slow")
+        .delay("1500").fadeOut("slow")
         .queue(function() { $(this).removeClass('message-green'); $(this).dequeue() });
-      $(this).closest('form').find("input[type=text], textarea").val("");
+      $(this)
+        .closest('form')
+        .find("input[type=text], textarea")
+        .val("");
       return false;
-
     } else {
-
-      console.log("bad report");
-      console.log(reportValues);
       $('.message')
         .fadeIn("slow")
         .addClass('message-red')
         .text('Please Complete All Fields.')
-        .delay("3000").fadeOut("slow")
+        .delay("1500").fadeOut("slow")
         .queue(function() { $(this).removeClass('message-red'); $(this).dequeue() });
-      $(this).closest('form').find("input[type=text], textarea").val("");
+      $(this)
+        .closest('form')
+        .find("input[type=text], textarea")
+        .val("");
       return false;
-
     };
 
   });
-
-
 });
