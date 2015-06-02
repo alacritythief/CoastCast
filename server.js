@@ -15,7 +15,6 @@ var csrf = require('csurf');
 var stylus = require('stylus');
 var nib = require('nib');
 var paginate = require('paginate');
-var flash = require('connect-flash');
 var uuid = require('node-uuid');
 
 // EXPRESS APP
@@ -55,9 +54,6 @@ app.use(session({
 
 // CSRF protection:
 app.use(csrf({ cookie: false }));
-
-// Use connect-flash for flash messages:
-app.use(flash());
 
 
 // PROTOTYPES
@@ -163,18 +159,10 @@ function allReportCount() {
 };
 
 
-// TEST VAR
-app.locals.exampleQueue = [];
-
-
 // ROUTES
 app.get('/', function(req, res) {
   res.render('home', {
     csrfToken: req.csrfToken(),
-    last_bg: req.session['last_bg'] || "",
-    message: req.flash('message'),
-    reportType: "All Reports",
-    reportCount: allReportCount() > 0 ? allReportCount() + " Report(s)" : "No Reports",
     userCount: app.locals.userCount,
     red: app.locals.redbg.tempSwap().slice(0,10),
     green: app.locals.greenbg.tempSwap().slice(0,10),
@@ -305,19 +293,19 @@ io.on('connection', function(socket){
 
 
 // EXAMPLE POST request:
-// curl -d '{"user": "Jim Bob", "bg": "BLUE", "report": "30 BG at spawn tower"}' -H "Content-Type: application/json" http://127.0.0.1:3000/test
+// curl -d '{"user": "Jim Bob", "bg": "BLUE", "report": "30 BG at spawn tower"}' -H "Content-Type: application/json" http://127.0.0.1:3000/submit
 
 // PING ROUTES (for testing)
-app.get('/ping', function(req, res) {
-  console.log('PING received, GET');
-  res.send('PONG - Method: GET');
-});
-
-app.post('/ping', function(req, res) {
-  console.log('PING received, POST');
-  console.log(req.body);
-  res.send('PONG - Method: POST');
-});
+// app.get('/ping', function(req, res) {
+//   console.log('PING received, GET');
+//   res.send('PONG - Method: GET');
+// });
+//
+// app.post('/ping', function(req, res) {
+//   console.log('PING received, POST');
+//   console.log(req.body);
+//   res.send('PONG - Method: POST');
+// });
 
 
 // Error Handling:

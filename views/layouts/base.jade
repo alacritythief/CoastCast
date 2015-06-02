@@ -9,15 +9,15 @@ html
     .header
       span.nav-title
         h1 CoastCast
-      //- span.nav-title
-      //-   h3 #{reportType}: #{reportCount} Total
     .content
-      != message
       block content
       p#usercount.message-usercount Counting users...
       
+
     .footer
-      include ../includes/submit
+      .message
+      .submit-form
+        include ../includes/submit
 
   script(src="https://cdn.socket.io/socket.io-1.3.5.js")
   script(src="http://code.jquery.com/jquery-2.1.4.min.js")
