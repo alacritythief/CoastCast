@@ -16,6 +16,7 @@ Server Instructions:
 POST Testing:
 -------------
 
+* Uncomment PING area in `server.js`
 * Run the server `node server.js`
 * In another terminal window, enter:
 * `curl -d '{"user": "Jim Bob", "report": "30 BG at spawn tower"}' -H "Content-Type: application/json" http://127.0.0.1:3000/ping`
@@ -24,5 +25,6 @@ POST Testing:
 PING Testing:
 -------------
 
+* Uncomment PING area in `server.js`
 * Opening [localhost:3000/ping](http://localhost:3000/ping) makes sure the server is running and receiving GET requests.
 * Sending a POST request to [localhost:3000/ping](http://localhost:3000/ping) makes sure the server is receiving POST requests.
