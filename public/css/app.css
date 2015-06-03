@@ -252,6 +252,9 @@ select {
   padding: 0.5rem;
   width: 99.2%;
 }
+.nav-title {
+  display: inline-block;
+}
 .content {
   margin: 3rem auto 3rem auto;
   width: 100%;
@@ -297,9 +300,6 @@ select {
   display: inline-block;
   font-weight: bold;
   padding: 0.5rem;
-}
-.nav-title {
-  display: inline-block;
 }
 .report-wrapper {
   display: flex;
