@@ -1,6 +1,6 @@
 form#report-form
   label(for="user") Name:
-  input(type="text", name="user", placeholder="Character Name")
+  input(type="text", name="user", placeholder="Character Name", maxlength="80")
   label(for="bg") Battleground:
   select(name="bg")
     each bg in ['RED', 'GREEN', 'BLUE', 'EBG']
@@ -8,6 +8,6 @@ form#report-form
         option(value="#{bg}", selected="selected") #{bg}
       else
         option(value="#{bg}") #{bg}
-  label(for="report") Your Report:
+  label(for="report") Your Report (180 chars max):
   input(type="text", name="report", placeholder="30 JQ spotted at N outer gate at Hills", maxlength="180", class="report-input")
   input(type="submit", value="submit")
