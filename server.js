@@ -230,7 +230,7 @@ app.get('/ebg/json', function(req, res) {
 
 // Socket.IO
 io.on('connection', function(socket){
-
+  
   // Track when a user connects
   app.locals.userCount += 1;
   io.emit('usercount', 'users connected: ' + app.locals.userCount);

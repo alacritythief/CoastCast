@@ -111,7 +111,7 @@ $(document).ready(function() {
     });
 
     // Validate Report
-    if (!reportValues['user'].isEmpty() && !reportValues['bg'].isEmpty() && !reportValues['report'].isEmpty()) {
+    if (!reportValues['bg'].isEmpty() && !reportValues['report'].isEmpty()) {
       socket.emit('send_report', reportValues);
       $('.message')
         .fadeIn("slow")

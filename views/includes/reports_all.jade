@@ -10,29 +10,37 @@ mixin no-report
     ul
       li No reports
 
-.report-wrapper
-  .report-grid
-    h2.title-red RED
-    ul#redbg
-      for report in red
-        +report(report)
+if user && user.customData['verified']
+  .report-wrapper
+    .report-grid
+      h2.title-red RED
+      ul#redbg
+        for report in red
+          +report(report)
 
-  .report-grid
-    h2.title-green GREEN
-    ul#greenbg
-      for report in green
-        +report(report)
+    .report-grid
+      h2.title-green GREEN
+      ul#greenbg
+        for report in green
+          +report(report)
 
-  .report-grid
-    h2.title-blue BLUE
-    ul#bluebg
-      for report in blue
-        +report(report)
-        
-  .report-grid
-    h2.title-ebg EBG
-    ul#ebg
-      for report in ebg
-        +report(report)
-
-p#usercount.message-usercount Counting users...
+    .report-grid
+      h2.title-blue BLUE
+      ul#bluebg
+        for report in blue
+          +report(report)
+          
+    .report-grid
+      h2.title-ebg EBG
+      ul#ebg
+        for report in ebg
+          +report(report)
+          
+  p#usercount.message-usercount Counting users...
+          
+else
+  .report-wrapper
+    .report-grid
+      h2.title-red Verification Required!
+      ul
+        li Please verify your account to view reports.
