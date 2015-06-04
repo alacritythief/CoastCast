@@ -1,7 +1,7 @@
 CoastCast v1.0
 ==============
 
-A realtime WvW reporting system for Tarnished Coast, using Node.JS and Express.JS
+A realtime WvW reporting system for Tarnished Coast, using Node.JS, Express.JS, and Socket.io.
 
 Server Instructions:
 -------------------
