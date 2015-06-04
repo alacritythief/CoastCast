@@ -41,7 +41,10 @@ app.use(bodyParser.json());
 app.use(stormpath.init(app, {
     apiKeyFile: '.env',
     application: 'https://api.stormpath.com/v1/applications/6TwQZZ2ICTrkDrhFAXD7eA',
-    secretKey: process.env.SECRET_KEY
+    secretKey: process.env.SECRET_KEY,
+    enableUsername: true,
+    registrationView: __dirname + '/views/register.jade',
+    loginView: __dirname + '/views/login.jade'
 }));
 
 
@@ -151,6 +154,7 @@ function allReportCount() {
 // ROUTES
 app.get('/', function(req, res) {
   res.render('home', {
+    user: req.user || null,
     userCount: app.locals.userCount,
     red: app.locals.redbg.tempSwap().slice(0,10),
     green: app.locals.greenbg.tempSwap().slice(0,10),
@@ -286,6 +290,9 @@ app.get('/email', stormpath.loginRequired, function(req, res) {
   res.send('Your email address is: ' + req.user.email);
 });
 
+app.get('/user', stormpath.loginRequired, function(req, res) {
+  res.send(req.user);
+});
 
 // EXAMPLE POST request:
 // curl -d '{"user": "Jim Bob", "bg": "BLUE", "report": "30 BG at spawn tower"}' -H "Content-Type: application/json" http://127.0.0.1:3000/submit

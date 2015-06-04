@@ -1,0 +1,17 @@
+extends ./layouts/base
+
+block content
+  // Display an error if there is any.
+  if error
+    p #{error}
+
+  form(method='post')
+    input(name='_csrf', type='hidden', value=csrfToken)
+
+    if app.get('stormpathEnableUsername')
+      input(placeholder='Username or Email', required=true, name='login', type='text')
+    else
+      input(placeholder='Email', required=true, name='login', type='text')
+
+    input(placeholder='Password', required=true, type='password', name='password')
+    button(type='submit') Log In
