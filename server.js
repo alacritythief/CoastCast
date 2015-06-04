@@ -8,10 +8,7 @@ require('dotenv').load();
 // LIBRARIES
 var express = require('express');
 var bodyParser = require('body-parser');
-var session = require('express-session');
-var FileStore = require('session-file-store')(session);
-var cookieParser = require('cookie-parser');
-var csrf = require('csurf');
+var stormpath = require('express-stormpath');
 var stylus = require('stylus');
 var nib = require('nib');
 var paginate = require('paginate');
@@ -40,20 +37,12 @@ app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-// Use cookie-parser to utilize cookies, add sessions:
-app.use(cookieParser());
-app.use(session({
-  genid: function(req) {
-    return uuid.v4();
-  },
-  store: new FileStore(),
-  secret: process.env.SECRET_KEY,
-  resave: true,
-  saveUninitialized: true
+// Stormpath for Logins:
+app.use(stormpath.init(app, {
+    apiKeyFile: '.env',
+    application: 'https://api.stormpath.com/v1/applications/6TwQZZ2ICTrkDrhFAXD7eA',
+    secretKey: process.env.SECRET_KEY
 }));
-
-// CSRF protection:
-app.use(csrf({ cookie: false }));
 
 
 // PROTOTYPES
@@ -162,7 +151,6 @@ function allReportCount() {
 // ROUTES
 app.get('/', function(req, res) {
   res.render('home', {
-    csrfToken: req.csrfToken(),
     userCount: app.locals.userCount,
     red: app.locals.redbg.tempSwap().slice(0,10),
     green: app.locals.greenbg.tempSwap().slice(0,10),
@@ -292,6 +280,13 @@ io.on('connection', function(socket){
 });
 
 
+// Stormpath testing
+
+app.get('/email', stormpath.loginRequired, function(req, res) {
+  res.send('Your email address is: ' + req.user.email);
+});
+
+
 // EXAMPLE POST request:
 // curl -d '{"user": "Jim Bob", "bg": "BLUE", "report": "30 BG at spawn tower"}' -H "Content-Type: application/json" http://127.0.0.1:3000/submit
 
@@ -309,11 +304,11 @@ io.on('connection', function(socket){
 
 
 // Error Handling:
-app.use(function (err, req, res, next) {
-  if (err.code !== 'EBADCSRFTOKEN') return next(err);
-  res.status(403);
-  res.send('Error - Unauthorized form received.');
-});
+// app.use(function (err, req, res, next) {
+//   if (err.code !== 'EBADCSRFTOKEN') return next(err);
+//   res.status(403);
+//   res.send('Error - Unauthorized form received.');
+// });
 
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
