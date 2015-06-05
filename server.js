@@ -7,17 +7,21 @@ require('dotenv').load();
 
 // LIBRARIES
 var express = require('express');
+var cookieParser = require('cookie-parser')
+var csrf = require('csurf');
 var bodyParser = require('body-parser');
 var stormpath = require('express-stormpath');
 var stylus = require('stylus');
 var nib = require('nib');
 var paginate = require('paginate');
 var uuid = require('node-uuid');
+var grabAccountInfo = require('./auth');
 
 // EXPRESS APP
 var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
+var csrfProtection = csrf({ cookie: true })
 
 // TEMPLATE ENGINE - JADE
 app.set('views', './views');
@@ -36,6 +40,10 @@ app.use(express.static(__dirname + '/public'));
 // Use body-parser for parsing requests:
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+// Use cookie-parser for cookies:
+app.use(cookieParser());
+
 
 // Stormpath for Logins:
 app.use(stormpath.init(app, {
@@ -230,7 +238,7 @@ app.get('/ebg/json', function(req, res) {
 
 // Socket.IO
 io.on('connection', function(socket){
-  
+
   // Track when a user connects
   app.locals.userCount += 1;
   io.emit('usercount', 'users connected: ' + app.locals.userCount);
@@ -294,6 +302,43 @@ app.get('/user', stormpath.loginRequired, function(req, res) {
   res.send(req.user);
 });
 
+app.get('/profile', csrfProtection, function(req, res) {
+  res.render('profile', {
+    user: req.user || null,
+    verified: req.user.customData['verified'] || 'Not Verified',
+    csrfToken: req.csrfToken()
+  });
+});
+
+app.post('/profile', csrfProtection, function(req, res) {
+  // grabAccountInfo(key, function(res) {
+  //
+  //     if (res.ok) {
+  //       account = res.body;
+  //     }
+  //
+  //     if (account.world === 1017) {
+  //       return true;
+  //
+  //       req.user.customData['verified'] = 'true'
+  //       req.user.save();
+  //     } else {
+  //       return false;
+  //     };
+  //
+  // });
+
+  console.log(req.body);
+
+  res.render('profile', {
+    user: req.user || null,
+    verified: req.user.customData['verified'] || 'Not Verified',
+    csrfToken: req.csrfToken()
+  });
+});
+
+
+
 // EXAMPLE POST request:
 // curl -d '{"user": "Jim Bob", "bg": "BLUE", "report": "30 BG at spawn tower"}' -H "Content-Type: application/json" http://127.0.0.1:3000/submit
 
@@ -311,6 +356,7 @@ app.get('/user', stormpath.loginRequired, function(req, res) {
 
 
 // Error Handling:
+
 // app.use(function (err, req, res, next) {
 //   if (err.code !== 'EBADCSRFTOKEN') return next(err);
 //   res.status(403);

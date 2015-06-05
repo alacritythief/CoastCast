@@ -1,0 +1,21 @@
+extends ./layouts/base
+
+block content
+  // Display an error if there is any.
+  if error
+    p #{error}
+
+  form(action='/profile', method='post')
+    input(name='_csrf', type='hidden', value=csrfToken)
+    label(for="username") User Name:
+    input(placeholder='Username', name='username', value='#{user.username}', type='text')
+    label(for="givenName") First Name:
+    input(placeholder='First Name', name='givenName', value='#{user.givenName}', type='text')
+    label(for="surname") Last Name:
+    input(placeholder='Last Name', name='surname', value='#{user.surname}', type='text')
+    label(for="email") Email:
+    input(placeholder='Email', name='email', value='#{user.email}', type='text')
+    label(for="email") GW2 API Key:
+    input(placeholder='XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXXXXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX', name='apikey', value='', type='text')
+    span=verified
+    button(type='submit') Update Account
