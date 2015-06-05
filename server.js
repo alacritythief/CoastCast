@@ -52,7 +52,9 @@ app.use(stormpath.init(app, {
     secretKey: process.env.SECRET_KEY,
     enableUsername: true,
     registrationView: __dirname + '/views/register.jade',
-    loginView: __dirname + '/views/login.jade'
+    loginView: __dirname + '/views/login.jade',
+    expandCustomData: true,
+    enableAutoLogin: true
 }));
 
 
@@ -302,39 +304,33 @@ app.get('/user', stormpath.loginRequired, function(req, res) {
   res.send(req.user);
 });
 
-app.get('/profile', csrfProtection, function(req, res) {
+app.get('/profile', stormpath.loginRequired, csrfProtection, function(req, res) {
+  console.log('GET');
+
   res.render('profile', {
     user: req.user || null,
-    verified: req.user.customData['verified'] || 'Not Verified',
+    apikey: req.user.customData['apikey'] || null,
+    verified: req.user.customData['verified'] || null,
     csrfToken: req.csrfToken()
   });
 });
 
-app.post('/profile', csrfProtection, function(req, res) {
-  // grabAccountInfo(key, function(res) {
-  //
-  //     if (res.ok) {
-  //       account = res.body;
-  //     }
-  //
-  //     if (account.world === 1017) {
-  //       return true;
-  //
-  //       req.user.customData['verified'] = 'true'
-  //       req.user.save();
-  //     } else {
-  //       return false;
-  //     };
-  //
-  // });
+app.post('/profile', stormpath.loginRequired, csrfProtection, function(req, res) {
 
-  console.log(req.body);
+  console.log('POST');
 
-  res.render('profile', {
-    user: req.user || null,
-    verified: req.user.customData['verified'] || 'Not Verified',
-    csrfToken: req.csrfToken()
-  });
+  var payload = req.body;
+
+  // Update User info:
+  req.user.givenName = payload['givenName'];
+  req.user.surname = payload['surname'];
+  req.user.customData['apikey'] = payload['apikey'];
+  console.log('changing to ' + req.user.customData['apikey']);
+  req.user.save();
+
+  console.log('changed to ' + req.user.customData['apikey']);
+
+  res.redirect('/profile');
 });
 
 
