@@ -307,6 +307,8 @@ app.get('/user', stormpath.loginRequired, function(req, res) {
 app.get('/profile', stormpath.loginRequired, csrfProtection, function(req, res) {
   console.log('GET');
 
+  console.log(req.user.customData['apikey']);
+
   res.render('profile', {
     user: req.user || null,
     apikey: req.user.customData['apikey'] || null,
@@ -326,9 +328,43 @@ app.post('/profile', stormpath.loginRequired, csrfProtection, function(req, res)
   req.user.surname = payload['surname'];
   req.user.customData['apikey'] = payload['apikey'];
   console.log('changing to ' + req.user.customData['apikey']);
-  req.user.save();
+  // req.user.save();
+  req.user.customData.save();
 
   console.log('changed to ' + req.user.customData['apikey']);
+
+  res.redirect('/verify');
+});
+
+app.get('/verify', stormpath.loginRequired, function(req, res) {
+
+  console.log('verify: ' + req.user.customData['apikey']);
+
+  grabAccountInfo(req.user.customData['apikey'], function(err, res) {
+    if (res.ok) {
+      var account = res.body;
+
+      console.log(account.world);
+
+      if (account['world'] === 1017) {
+        req.user.customData['verified'] = 'true';
+        req.user.customData.save();
+      } else {
+        delete req.user.customData['verified'];
+        req.user.customData.save();
+      };
+
+    } else {
+
+      if (req.user.customData['verified']) {
+
+        delete req.user.customData['verified'];
+        req.user.customData.save();
+
+      };
+
+    };
+  });
 
   res.redirect('/profile');
 });
@@ -353,11 +389,11 @@ app.post('/profile', stormpath.loginRequired, csrfProtection, function(req, res)
 
 // Error Handling:
 
-// app.use(function (err, req, res, next) {
-//   if (err.code !== 'EBADCSRFTOKEN') return next(err);
-//   res.status(403);
-//   res.send('Error - Unauthorized form received.');
-// });
+app.use(function (err, req, res, next) {
+  if (err.code !== 'EBADCSRFTOKEN') return next(err);
+  res.status(403);
+  res.send('Error - Unauthorized form received.');
+});
 
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
