@@ -336,6 +336,7 @@ app.get('/profile/verify', stormpath.loginRequired, function(req, res) {
   });
 });
 
+
 // PING ROUTES (for testing)
 // app.get('/ping', function(req, res) {
 //   console.log('PING received, GET');
