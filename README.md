@@ -10,6 +10,7 @@ Server Instructions:
 * Clone this repo and go into its folder
 * `npm install` will locally install all required Node modules
 * A `.env` file is needed with a `SECRET_KEY` value, this can be anything for testing purposes.
+* API keys in the `.env` are needed for Stormpath to function.
 * `node server.js` to run the server
 * Go to [localhost:3000](http://localhost:3000/) in your browser
 
