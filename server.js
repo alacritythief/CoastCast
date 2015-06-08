@@ -58,7 +58,7 @@ app.use(stormpath.init(app, {
 }));
 
 // CSRF Protection:
-app.use(csrf({ sessionKey: 'stormpathSession' }));
+csrfProtection = csrf({ sessionKey: 'stormpathSession' });
 
 
 // PROTOTYPES
@@ -119,86 +119,11 @@ function queueCheck() {
   };
 };
 
+
 // Total Report Count
 function allReportCount() {
   return app.locals.redbg.length + app.locals.greenbg.length + app.locals.bluebg.length + app.locals.ebg.length
 };
-
-
-// ROUTES
-app.get('/', function(req, res) {
-  res.render('home', {
-    user: req.user || null,
-    userCount: app.locals.userCount,
-    red: app.locals.redbg.tempSwap().slice(0,10),
-    green: app.locals.greenbg.tempSwap().slice(0,10),
-    blue: app.locals.bluebg.tempSwap().slice(0,10),
-    ebg: app.locals.ebg.tempSwap().slice(0,10)
-  });
-});
-
-app.get('/submit', function(req, res) {
-  res.redirect('/');
-});
-
-app.post('/submit', function(req,res) {
-  var payload = req.body;
-  now = new Date();
-
-  console.log("Payload:");
-  console.log(payload);
-
-  if (!payload['user'].isEmpty() && !payload['bg'].isEmpty() && !payload['report'].isEmpty()) {
-    console.log('Received: GOOD Report');
-    console.log(req.body);
-
-    var report = {
-      'rawstamp': now.rawstamp(),
-      'user': payload['user'],
-      'bg': payload['bg'],
-      'report': payload['report'],
-      'timestamp': now.timestamp()
-    };
-
-    queueCheck();
-
-    req.session['last_bg'] = payload['bg'];
-
-    if (payload['bg'] === 'RED') {
-      app.locals.redbg.push(report);
-    } else if (payload['bg'] === 'GREEN') {
-      app.locals.greenbg.push(report);
-    } else if (payload['bg'] === 'BLUE') {
-      app.locals.bluebg.push(report);
-    } else if (payload['bg'] === 'EBG') {
-      app.locals.ebg.push(report);
-    };
-
-    res.status(200).send(report);
-  } else {
-    console.log('Received: BAD Report');
-    console.log(req.body);
-    res.status(500);
-  };
-});
-
-
-// API
-app.get('/red/json', function(req, res) {
-  res.json(app.locals.redbg.tempSwap());
-});
-
-app.get('/green/json', function(req, res) {
-  res.json(app.locals.greenbg.tempSwap());
-});
-
-app.get('/blue/json', function(req, res) {
-  res.json(app.locals.bluebg.tempSwap());
-});
-
-app.get('/ebg/json', function(req, res) {
-  res.json(app.locals.ebg.tempSwap());
-});
 
 
 // Socket.IO
@@ -210,7 +135,6 @@ io.on('connection', function(socket){
 
   // Receiving reports
   socket.on('send_report', function(reportValues) {
-
     now = new Date();
 
     if (!reportValues['user'].isEmpty() && !reportValues['bg'].isEmpty() && !reportValues['report'].isEmpty()) {
@@ -236,14 +160,11 @@ io.on('connection', function(socket){
       } else if (reportValues['bg'] === 'EBG') {
         app.locals.ebg.push(report);
       };
-
       io.emit('new_report', report);
 
     } else {
-
       console.log('Received: BAD Report');
       console.log(reportValues);
-
     };
 
   });
@@ -257,9 +178,108 @@ io.on('connection', function(socket){
 });
 
 
+// ROUTES
+app.get('/', function(req, res) {
+  res.render('home', {
+    user: req.user || null,
+    userCount: app.locals.userCount,
+    red: app.locals.redbg.tempSwap().slice(0,10),
+    green: app.locals.greenbg.tempSwap().slice(0,10),
+    blue: app.locals.bluebg.tempSwap().slice(0,10),
+    ebg: app.locals.ebg.tempSwap().slice(0,10)
+  });
+});
+
+app.get('/submit', function(req, res) {
+  res.redirect('/');
+});
+
+// EXAMPLE POST request:
+// curl -d '{"user": "Jim Bob", "bg": "BLUE", "report": "30 BG at spawn tower", "apikey": "xxyyzz"}' -H "Content-Type: application/json" http://127.0.0.1:3000/submit
+
+app.post('/submit', function(req,res) {
+  var payload = req.body;
+  now = new Date();
+
+  try {
+    if (!payload['user'].isEmpty() && !payload['bg'].isEmpty() && !payload['report'].isEmpty() && !payload['apikey'].isEmpty()) {
+
+      authInfo(payload['apikey'], function(error, response) {
+        if (response.status === 200) {
+          var account = response.body;
+
+          if (account['world'] === 1017) {
+            console.log('Received: GOOD Report');
+            console.log(req.body);
+
+            var report = {
+              'rawstamp': now.rawstamp(),
+              'user': payload['user'],
+              'bg': payload['bg'],
+              'report': payload['report'],
+              'timestamp': now.timestamp()
+            };
+
+            queueCheck();
+
+            if (payload['bg'] === 'RED') {
+              app.locals.redbg.push(report);
+            } else if (payload['bg'] === 'GREEN') {
+              app.locals.greenbg.push(report);
+            } else if (payload['bg'] === 'BLUE') {
+              app.locals.bluebg.push(report);
+            } else if (payload['bg'] === 'EBG') {
+              app.locals.ebg.push(report);
+            };
+
+            io.emit('new_report', report);
+            res.status(200).send(report);
+          } else {
+            console.log('NOT ON TC');
+            console.log(req.body);
+            res.status(500).send('API Key is not on TC');
+          };
+        } else {
+          console.log('BAD API KEY');
+          console.log(req.body);
+          res.status(500).send('Bad API Key');
+        };
+      });
+
+    } else {
+      console.log('Received: BAD Report');
+      console.log(req.body);
+      res.status(500).send('Incomplete Report');
+    };
+  } catch(err) {
+    console.log('Received: BAD Report');
+    console.log(req.body);
+    res.status(500).send('Incomplete Report');
+  };
+});
+
+
+// API
+app.get('/red/json', function(req, res) {
+  res.json(app.locals.redbg.tempSwap());
+});
+
+app.get('/green/json', function(req, res) {
+  res.json(app.locals.greenbg.tempSwap());
+});
+
+app.get('/blue/json', function(req, res) {
+  res.json(app.locals.bluebg.tempSwap());
+});
+
+app.get('/ebg/json', function(req, res) {
+  res.json(app.locals.ebg.tempSwap());
+});
+
+
 // STORMPATH
 
-app.get('/profile', stormpath.loginRequired, function(req, res) {
+app.get('/profile', stormpath.loginRequired, csrfProtection, function(req, res) {
   res.render('profile', {
     user: req.user || null,
     apikey: req.user.customData['apikey'] || '',
@@ -268,7 +288,7 @@ app.get('/profile', stormpath.loginRequired, function(req, res) {
   });
 });
 
-app.post('/profile', stormpath.loginRequired, function(req, res) {
+app.post('/profile', stormpath.loginRequired, csrfProtection, function(req, res) {
   var payload = req.body;
 
   // Update User info:
@@ -315,11 +335,6 @@ app.get('/profile/verify', stormpath.loginRequired, function(req, res) {
     };
   });
 });
-
-
-
-// EXAMPLE POST request:
-// curl -d '{"user": "Jim Bob", "bg": "BLUE", "report": "30 BG at spawn tower"}' -H "Content-Type: application/json" http://127.0.0.1:3000/submit
 
 // PING ROUTES (for testing)
 // app.get('/ping', function(req, res) {

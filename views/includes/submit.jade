@@ -1,7 +1,7 @@
 .submit-form
   if user && user.customData['verified']
     form#report-form
-      label(for="user") Name: <strong>#{user.username}</strong>
+      label(for="user") Name: <strong><a href="/profile">#{user.username}</a></strong>
       input(type="hidden", name="user", value="#{user.username}")
       label(for="bg") Battleground:
       select(name="bg")
