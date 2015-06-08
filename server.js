@@ -78,18 +78,6 @@ Array.prototype.tempSwap = function() {
   return results;
 };
 
-// Array Pagination
-Array.prototype.page = function(num) {
-  if (num <= 0) {
-    num = 1;
-  } else {
-    num = num || 1;
-  };
-
-  var pagination = paginate.page(this.length, 10, num);
-  return pagination;
-};
-
 
 // GLOBAL VARS
 app.locals.redbg = [];
