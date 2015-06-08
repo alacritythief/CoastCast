@@ -16,14 +16,13 @@ var nib = require('nib');
 var uuid = require('node-uuid');
 
 // CUSTOM LIBRARIES
-var now = require('./lib/date');
-var grabAccountInfo = require('./lib/auth');
+var now = require('./lib/now');
+var authInfo = require('./lib/auth');
 
 // EXPRESS APP
 var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
-var csrfProtection = csrf({ cookie: true })
 
 // TEMPLATE ENGINE - JADE
 app.set('views', './views');
@@ -49,7 +48,7 @@ app.use(cookieParser());
 // Stormpath for Logins:
 app.use(stormpath.init(app, {
     apiKeyFile: '.env',
-    application: 'https://api.stormpath.com/v1/applications/6TwQZZ2ICTrkDrhFAXD7eA',
+    application: process.env.APP_URL,
     secretKey: process.env.SECRET_KEY,
     enableUsername: true,
     registrationView: __dirname + '/views/register.jade',
@@ -57,6 +56,9 @@ app.use(stormpath.init(app, {
     expandCustomData: true,
     enableAutoLogin: true
 }));
+
+// CSRF Protection:
+app.use(csrf({ sessionKey: 'stormpathSession' }));
 
 
 // PROTOTYPES
@@ -97,7 +99,8 @@ app.locals.bluebg = [];
 app.locals.ebg = [];
 app.locals.userCount = 0;
 
-// Queue Check
+
+// QUEUE CHECK
 function queueCheck() {
   if (app.locals.redbg > 99) {
     app.locals.redbg.pop();
@@ -133,7 +136,6 @@ app.get('/', function(req, res) {
     ebg: app.locals.ebg.tempSwap().slice(0,10)
   });
 });
-
 
 app.get('/submit', function(req, res) {
   res.redirect('/');
@@ -255,83 +257,63 @@ io.on('connection', function(socket){
 });
 
 
-// Stormpath testing
+// STORMPATH
 
-app.get('/email', stormpath.loginRequired, function(req, res) {
-  res.send('Your email address is: ' + req.user.email);
-});
-
-app.get('/user', stormpath.loginRequired, function(req, res) {
-  res.send(req.user);
-});
-
-app.get('/profile', stormpath.loginRequired, csrfProtection, function(req, res) {
-  console.log('GET');
-
-  console.log(req.user.customData['apikey']);
-
+app.get('/profile', stormpath.loginRequired, function(req, res) {
   res.render('profile', {
     user: req.user || null,
-    apikey: req.user.customData['apikey'] || null,
+    apikey: req.user.customData['apikey'] || '',
     verified: req.user.customData['verified'] || null,
     csrfToken: req.csrfToken()
   });
 });
 
-app.post('/profile', stormpath.loginRequired, csrfProtection, function(req, res) {
-
-  console.log('POST');
-
+app.post('/profile', stormpath.loginRequired, function(req, res) {
   var payload = req.body;
 
   // Update User info:
   req.user.givenName = payload['givenName'];
   req.user.surname = payload['surname'];
   req.user.customData['apikey'] = payload['apikey'];
-  console.log('changing to ' + req.user.customData['apikey']);
-  // req.user.save();
   req.user.customData.save();
-
-  console.log('changed to ' + req.user.customData['apikey']);
-
-  res.redirect('/verify');
-});
-
-app.get('/verify', stormpath.loginRequired, function(req, res) {
-
-  console.log('verify: ' + req.user.customData['apikey']);
-
-  grabAccountInfo(req.user.customData['apikey'], function(err, res) {
-    console.log(err.error || res.body);
-
-    if (res.ok) {
-      var account = res.body;
-
-      console.log(account.world);
-
-      if (account['world'] === 1017) {
-        req.user.customData['verified'] = 'true';
-        req.user.customData.save();
-      } else {
-        delete req.user.customData['verified'];
-        req.user.save();
-        req.user.customData.save();
-      };
-
+  req.user.save(function(error, result) {
+    if (!error) {
+      console.log(req.user.username + ' updated their profile.');
+      res.redirect('/profile/verify');
     } else {
-
-      if (req.user.customData['verified']) {
-
-        delete req.user.customData['verified'];
-        req.user.save();
-        req.user.customData.save();
-
-      };
-
+      res.redirect('/profile');
     };
   });
+});
 
-  res.redirect('/profile');
+app.get('/profile/verify', stormpath.loginRequired, function(req, res) {
+
+  // Query GW2 API and verify the user is on Tarnished Coast:
+  authInfo(req.user.customData['apikey'], function(error, response) {
+    if (response.status === 200) {
+      var account = response.body;
+
+      if (account['world'] === 1017) {
+        req.user.customData['verified'] = true;
+        req.user.customData.save();
+        req.user.save(function(error, result) {
+          res.redirect('/profile');
+        });
+      } else {
+        req.user.customData['verified'] = false;
+        req.user.customData.save();
+        req.user.save(function(error, result) {
+          res.redirect('/profile');
+        });
+      };
+    } else {
+        req.user.customData['verified'] = false;
+        req.user.customData.save();
+        req.user.save(function(error, result) {
+          res.redirect('/profile');
+        });
+    };
+  });
 });
 
 

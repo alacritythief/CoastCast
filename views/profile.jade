@@ -25,7 +25,7 @@ block content
     label(for="apikey") GW2 API Key:
     input.apikey-field(placeholder='XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXXXXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX', name='apikey', value='#{apikey}', type='text')
     
-    if verified === 'true'
+    if verified === true
       p.verified Verified: Tarnished Coast
     else
       p.not-verified User is NOT VERIFIED
