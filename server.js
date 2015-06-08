@@ -177,6 +177,12 @@ app.get('/', function(req, res) {
   });
 });
 
+app.get('/about', function(req, res) {
+  res.render('about', {
+    user: req.user || null,
+  });
+});
+
 app.get('/submit', function(req, res) {
   res.redirect('/');
 });
