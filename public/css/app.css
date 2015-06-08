@@ -376,6 +376,7 @@ select {
   padding: 0.5rem;
 }
 .report-wrapper {
+  display: -webkit-flex;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -385,6 +386,7 @@ select {
 .about-grid {
   background-color: #fff;
   border-radius: 0.5rem;
+  -webkit-box-flex: 1;
   flex: 1;
   min-width: 35rem;
   max-width: 35rem;
@@ -402,6 +404,7 @@ select {
 .report-grid {
   background-color: #fff;
   border-radius: 0.5rem;
+  -webkit-box-flex: 1;
   flex: 1;
   min-width: 22rem;
   max-width: 22rem;
@@ -413,12 +416,14 @@ select {
   padding: 0.5rem;
 }
 .report-grid ul li {
-  word-break: break-all;
   border-radius: 0.5rem;
   list-style: none;
+  word-break: break-all;
 }
 .report-listing:not(:last-child) {
   border-bottom: 1px solid #ddd;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
 }
 .report-input {
   width: 15rem;

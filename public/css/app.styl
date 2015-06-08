@@ -188,15 +188,17 @@ select
 // Reports - Flexbox
 
 .report-wrapper
+  display -webkit-flex
   display flex
   flex-direction row
   flex-wrap wrap
   justify-content center
-  align-items  flex-start
+  align-items flex-start
 
 .about-grid
   background-color bg-report
   border-radius 0.5rem
+  -webkit-box-flex 1
   flex 1
   min-width 35rem
   max-width 35rem
@@ -214,6 +216,7 @@ select
 .report-grid
   background-color bg-report
   border-radius 0.5rem
+  -webkit-box-flex 1
   flex 1
   min-width 22rem
   max-width 22rem
@@ -231,6 +234,8 @@ select
 
 .report-listing:not(:last-child)
   border-bottom 1px solid bg-body
+  border-bottom-left-radius 0
+  border-bottom-right-radius 0
 
 .report-input
   width 15rem
