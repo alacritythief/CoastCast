@@ -16,7 +16,7 @@ Server Instructions:
 Using the CoastCast API:
 ------------------------
 
-Each JSON route is at `bgcolor/json`. Each will send back the latest 100 reports. Available routes:
+Each JSON route is at `bgcolor/json`. Each will send back the latest 100 reports for that specified BG. Available routes:
 * `http://localhost:3000/red/json`
 * `http://localhost:3000/green/json`
 * `http://localhost:3000/blue/json`
