@@ -1,0 +1,35 @@
+extends ./layouts/base
+
+block content
+  // Display an error if there is any.
+  if error
+    p #{error}
+
+  form.profile-form(method='post')
+    h2 Register your account:
+    
+    input(name='_csrf', type='hidden', value=csrfToken)
+
+    // This block of code renders the desired input boxes for registering users.
+    if app.get('stormpathEnableUsername')
+      label(for="username") User Name:
+      input(placeholder='Username', name='username', required=app.get('stormpathRequireUsername') ? true : false, type='text')
+
+    if app.get('stormpathEnableGivenName')
+      label(for="givenName") First Name:
+      input(placeholder='First Name', name='givenName', required=app.get('stormpathRequireGivenName') ? true : false, type='text')
+
+    if app.get('stormpathEnableMiddleName')
+      label(for="middleName") Middle Name:
+      input(placeholder='Middle Name', name='middleName', required=app.get('stormpathRequireMiddleName') ? true : false, type='text')
+
+    if app.get('stormpathEnableSurname')
+      label(for="surname") Last Name:
+      input(placeholder='Last Name', name='surname', required=app.get('stormpathRequireSurname') ? true : false, type='text')
+
+    label(for="email") Email Address:
+    input(placeholder='Email', name='email', required='true', type='text')
+    label(for="password") Desired Password:
+    input(placeholder='Password', name='password', required='true', type='password')
+
+    input(type='submit', value="Create Account")

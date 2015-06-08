@@ -1,0 +1,33 @@
+extends ./layouts/base
+
+block content
+  // Display an error if there is any.
+  if error
+    p #{error}
+
+  form.profile-form(action='/profile', method='post')
+    h2 
+    
+    input(name='_csrf', type='hidden', value=csrfToken)
+      
+    label(for="username") User Name (fixed):
+    input.fixed(placeholder='Username', required=true, name='username', value='#{user.username}', type='text', readonly)
+    
+    label(for="givenName") First Name:
+    input(placeholder='First Name', required=true, name='givenName', value='#{user.givenName}', type='text')
+    
+    label(for="surname") Last Name:
+    input(placeholder='Last Name', required=true, name='surname', value='#{user.surname}', type='text')
+    
+    label(for="email") Email (fixed):
+    input.fixed(placeholder='Email', required=true, name='email', value='#{user.email}', type='text', readonly)
+    
+    label(for="apikey") GW2 API Key:
+    input.apikey-field(placeholder='XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXXXXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX', name='apikey', value='#{apikey}', type='text')
+    
+    if verified === true
+      p.verified Verified: Tarnished Coast
+    else
+      p.not-verified User is NOT VERIFIED
+    
+    input(type="submit", value="Update Account") 

@@ -22,7 +22,7 @@ hr
   background-color bg-body
   height 1px
 
-input[type=text]
+input[type=text], input[type=password]
   color text-input
   border 1px
   border-color #000
@@ -78,13 +78,41 @@ select
 
 .submit-form
   background-color bg-footer
+  color text-title
   padding-top 1rem
 
   form
-    color text-title
     text-align center
     width 100%
     margin 0 auto
+
+  .login-warning
+    font-weight bold
+    margin 0
+    padding-bottom 1rem
+    text-align center
+
+.profile-form
+  padding-top 1rem
+
+  .fixed
+    color #fff
+    background-color #000
+
+  p
+    margin-top 0
+
+  input[type=text], input[type=password]
+    width 45rem
+
+  input[type=submit]
+    margin 0 auto
+    display block
+    text-align center
+
+  label
+    display block
+    padding 1rem 0 0.5rem 0
 
 // Messages
 
@@ -111,6 +139,20 @@ select
   border-radius 0.5rem
   color text-title
   display inline-block
+  font-weight bold
+  padding .5rem
+
+.verified
+  background-color message-green
+  color text-title
+  display block
+  font-weight bold
+  padding .5rem
+
+.not-verified
+  background-color message-red
+  color text-title
+  display block
   font-weight bold
   padding .5rem
 

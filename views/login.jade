@@ -1,0 +1,23 @@
+extends ./layouts/base
+
+block content
+  // Display an error if there is any.
+  if error
+    p #{error}
+
+  form.profile-form(method='post')
+    h2 Login to CoastCast
+    
+    input(name='_csrf', type='hidden', value=csrfToken)
+
+    if app.get('stormpathEnableUsername')
+      label(for="login") User Name or Email:
+      input(placeholder='Username or Email', required=true, name='login', type='text')
+    else
+      label(for="login") User Name or Email:
+      input(placeholder='Email', required=true, name='login', type='text')
+
+    label(for="password") Password:
+    input(placeholder='Password', required=true, type='password', name='password')
+    
+    input(type='submit', value="Log In")

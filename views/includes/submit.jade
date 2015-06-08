@@ -1,13 +1,26 @@
-form#report-form
-  label(for="user") Name:
-  input(type="text", name="user", placeholder="Character Name", maxlength="80")
-  label(for="bg") Battleground:
-  select(name="bg")
-    each bg in ['RED', 'GREEN', 'BLUE', 'EBG']
-      if bg === last_bg
-        option(value="#{bg}", selected="selected") #{bg}
-      else
-        option(value="#{bg}") #{bg}
-  label(for="report") Your Report (180 chars max):
-  input(type="text", name="report", placeholder="30 JQ spotted at N outer gate at Hills", maxlength="180", class="report-input")
-  input(type="submit", value="submit")
+.submit-form
+  if user && user.customData['verified']
+    form#report-form
+      label(for="user") Name: <strong><a href="/profile">#{user.username}</a></strong>
+      input(type="hidden", name="user", value="#{user.username}")
+      label(for="bg") Battleground:
+      select(name="bg")
+        each bg in ['RED', 'GREEN', 'BLUE', 'EBG']
+          if bg === last_bg
+            option(value="#{bg}", selected="selected") #{bg}
+          else
+            option(value="#{bg}") #{bg}
+      label(for="report") Your Report (180 chars max):
+      input(type="text", name="report", placeholder="30 JQ spotted at N outer gate at Hills", maxlength="180", class="report-input", autofocus)
+      input(type="submit", value="submit")
+  else if user && !user.customData['verified']
+    p.login-warning.
+      Logged in as #{user.username}.
+      Please
+      <a href="/profile">verify your account</a>
+      to view and send reports.
+  else
+    p.login-warning.
+      Please
+      <a href="/login">LOGIN</a>
+      to post reports.
