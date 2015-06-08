@@ -13,7 +13,6 @@ var bodyParser = require('body-parser');
 var stormpath = require('express-stormpath');
 var stylus = require('stylus');
 var nib = require('nib');
-var uuid = require('node-uuid');
 
 // CUSTOM LIBRARIES
 var now = require('./lib/now');
