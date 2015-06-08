@@ -8,6 +8,8 @@ block content
   form.profile-form(method='post')
     h2 Login to CoastCast
     
+    p Don't have an account? <a href="/register">Create one</a>!
+    
     input(name='_csrf', type='hidden', value=csrfToken)
 
     if app.get('stormpathEnableUsername')

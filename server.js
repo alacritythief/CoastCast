@@ -13,7 +13,6 @@ var bodyParser = require('body-parser');
 var stormpath = require('express-stormpath');
 var stylus = require('stylus');
 var nib = require('nib');
-var uuid = require('node-uuid');
 
 // CUSTOM LIBRARIES
 var now = require('./lib/now');
@@ -77,18 +76,6 @@ Array.prototype.tempSwap = function() {
     results[k] = this[i];
   }
   return results;
-};
-
-// Array Pagination
-Array.prototype.page = function(num) {
-  if (num <= 0) {
-    num = 1;
-  } else {
-    num = num || 1;
-  };
-
-  var pagination = paginate.page(this.length, 10, num);
-  return pagination;
 };
 
 
@@ -187,6 +174,12 @@ app.get('/', function(req, res) {
     green: app.locals.greenbg.tempSwap().slice(0,10),
     blue: app.locals.bluebg.tempSwap().slice(0,10),
     ebg: app.locals.ebg.tempSwap().slice(0,10)
+  });
+});
+
+app.get('/about', function(req, res) {
+  res.render('about', {
+    user: req.user || null,
   });
 });
 
@@ -335,6 +328,7 @@ app.get('/profile/verify', stormpath.loginRequired, function(req, res) {
     };
   });
 });
+
 
 // PING ROUTES (for testing)
 // app.get('/ping', function(req, res) {

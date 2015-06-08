@@ -1,0 +1,14 @@
+block header
+  span.nav-title
+    h1 <a href="/">CoastCast</a>
+  span.nav-links
+    ul
+      li <a href="/">Reports</a>
+      if user
+        li <a href="/profile">Profile</a>
+        li <a href="/about">About</a>
+        li <a href="/logout">Logout</a>
+      else
+        li <a href="/about">About</a>
+        li <a href="/login">Login</a>
+      
