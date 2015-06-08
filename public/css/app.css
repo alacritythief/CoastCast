@@ -250,8 +250,8 @@ label {
   margin-left: 1rem;
 }
 select {
-  font-size: 1.5rem;
-  padding: 0.2rem;
+  color: #000;
+  font-size: 1rem;
   margin-left: 1rem;
 }
 .header {
@@ -386,8 +386,8 @@ select {
   background-color: #fff;
   border-radius: 0.5rem;
   flex: 1;
-  min-width: 500px;
-  max-width: 500px;
+  min-width: 35rem;
+  max-width: 35rem;
   margin: 1rem;
   text-align: center;
 }
@@ -403,8 +403,8 @@ select {
   background-color: #fff;
   border-radius: 0.5rem;
   flex: 1;
-  min-width: 300px;
-  max-width: 300px;
+  min-width: 22rem;
+  max-width: 22rem;
   margin: 1rem;
   text-align: left;
 }
@@ -413,6 +413,7 @@ select {
   padding: 0.5rem;
 }
 .report-grid ul li {
+  word-break: break-all;
   border-radius: 0.5rem;
   list-style: none;
 }
