@@ -5,7 +5,7 @@
 // Grab settings from .env
 require('dotenv').load();
 
-// LIBRARIES
+// CORE LIBRARIES
 var express = require('express');
 var cookieParser = require('cookie-parser')
 var csrf = require('csurf');
@@ -13,9 +13,10 @@ var bodyParser = require('body-parser');
 var stormpath = require('express-stormpath');
 var stylus = require('stylus');
 var nib = require('nib');
-var paginate = require('paginate');
 var uuid = require('node-uuid');
-var grabAccountInfo = require('./auth');
+
+// CUSTOM LIBRARIES
+var grabAccountInfo = require('./lib/auth');
 
 // EXPRESS APP
 var app = express();
@@ -43,7 +44,6 @@ app.use(bodyParser.json());
 
 // Use cookie-parser for cookies:
 app.use(cookieParser());
-
 
 // Stormpath for Logins:
 app.use(stormpath.init(app, {
@@ -341,6 +341,8 @@ app.get('/verify', stormpath.loginRequired, function(req, res) {
   console.log('verify: ' + req.user.customData['apikey']);
 
   grabAccountInfo(req.user.customData['apikey'], function(err, res) {
+    console.log(err.error || res.body);
+
     if (res.ok) {
       var account = res.body;
 
@@ -351,6 +353,7 @@ app.get('/verify', stormpath.loginRequired, function(req, res) {
         req.user.customData.save();
       } else {
         delete req.user.customData['verified'];
+        req.user.save();
         req.user.customData.save();
       };
 
@@ -359,6 +362,7 @@ app.get('/verify', stormpath.loginRequired, function(req, res) {
       if (req.user.customData['verified']) {
 
         delete req.user.customData['verified'];
+        req.user.save();
         req.user.customData.save();
 
       };
