@@ -198,6 +198,16 @@ html {
   font-family: Helvetica, Arial, Sans-Serif;
   font-size: 14px;
 }
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) {
+  html {
+    font-size: 24px;
+  }
+}
+@media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (-webkit-min-device-pixel-ratio: 2) {
+  html {
+    font-size: 24px;
+  }
+}
 body {
   background-color: #ddd;
 }
@@ -254,6 +264,16 @@ select {
   font-size: 1rem;
   margin-left: 1rem;
 }
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) {
+  select {
+    font-size: 24rem;
+  }
+}
+@media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (-webkit-min-device-pixel-ratio: 2) {
+  select {
+    font-size: 1.5rem;
+  }
+}
 .header {
   background-color: #000;
   color: #fff;
@@ -284,6 +304,16 @@ select {
   padding-top: 0.5rem;
   padding-right: 0.8rem;
 }
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) {
+  .nav-links {
+    font-size: 1.2rem;
+  }
+}
+@media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (-webkit-min-device-pixel-ratio: 2) {
+  .nav-links {
+    font-size: 1.2rem;
+  }
+}
 .nav-links ul {
   margin: 0;
   padding: 0;
@@ -300,6 +330,16 @@ select {
   background-color: #444;
   color: #fff;
   padding-top: 1rem;
+}
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) {
+  .submit-form {
+    font-size: 1.5rem;
+  }
+}
+@media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (-webkit-min-device-pixel-ratio: 2) {
+  .submit-form {
+    font-size: 1.5rem;
+  }
 }
 .submit-form form {
   width: 100%;
@@ -410,9 +450,9 @@ select {
   border-radius: 0.5rem;
   -webkit-box-flex: 1;
   flex: 1;
-  margin: 1rem;
+  margin: 0.8rem;
   min-width: 22rem;
-  max-width: 22rem;
+  max-width: 100%;
   text-align: left;
 }
 .report-grid ul {

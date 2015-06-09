@@ -232,24 +232,24 @@ app.post('/submit', function(req,res) {
           } else {
             console.log('NOT ON TC');
             console.log(req.body);
-            res.status(500).send('API Key is not on TC');
+            res.status(401).send('API Key is not on TC');
           };
         } else {
           console.log('BAD API KEY');
           console.log(req.body);
-          res.status(500).send('Bad API Key');
+          res.status(401).send('Bad API Key');
         };
       });
 
     } else {
       console.log('Received: BAD Report');
       console.log(req.body);
-      res.status(500).send('Incomplete Report');
+      res.status(403).send('Incomplete Report');
     };
   } catch(err) {
     console.log('Received: BAD Report');
     console.log(req.body);
-    res.status(500).send('Incomplete Report');
+    res.status(403).send('Incomplete Report');
   };
 });
 

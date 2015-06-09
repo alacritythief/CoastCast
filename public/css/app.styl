@@ -1,13 +1,20 @@
 // Imports
 
-@import _normalize
 @import _colors
+@import _normalize
+@import _media
 
 // Tags
 
 html
   font-family Helvetica, Arial, Sans-Serif
   font-size 14px
+
+  @media iphone4
+    font-size 24px
+
+  @media iphone5s
+    font-size 24px
 
 body
   background-color bg-body
@@ -60,6 +67,12 @@ select
   font-size 1rem
   margin-left 1rem
 
+  @media iphone4
+    font-size 24rem
+
+  @media iphone5s
+    font-size 1.5rem
+
 // Generic Classes
 
 .header
@@ -92,6 +105,12 @@ select
   padding-top 0.5rem
   padding-right 0.8rem
 
+  @media iphone4
+    font-size 1.2rem
+
+  @media iphone5s
+    font-size 1.2rem
+
   ul
     margin 0
     padding 0
@@ -108,6 +127,12 @@ select
   background-color bg-footer
   color text-title
   padding-top 1rem
+
+  @media iphone4
+    font-size 1.5rem
+
+  @media iphone5s
+    font-size 1.5rem
 
   form
     width 100%
@@ -221,9 +246,9 @@ select
   border-radius 0.5rem
   -webkit-box-flex 1
   flex 1
-  margin 1rem
+  margin 0.8rem
   min-width 22rem
-  max-width 22rem
+  max-width 100%
   text-align left
 
   ul
