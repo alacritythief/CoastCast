@@ -204,8 +204,8 @@ body {
 a:link,
 a:visited,
 a:active {
-  font-weight: bold;
   color: #e54;
+  font-weight: bold;
   text-decoration: none;
 }
 a:hover {
@@ -218,9 +218,9 @@ h3 {
   padding: 0;
 }
 hr {
+  background-color: #ddd;
   border: none;
   color: #ddd;
-  background-color: #ddd;
   height: 1px;
 }
 input[type=text],
@@ -228,20 +228,20 @@ input[type=password] {
   color: #000;
   border: 1px;
   border-color: #000;
-  border-style: solid;
   border-radius: 0.2rem;
-  outline: none;
+  border-style: solid;
   margin-left: 1rem;
   margin-bottom: 1rem;
+  outline: none;
   padding: 0.2rem;
 }
 input[type=submit] {
   background-color: #000;
+  color: #fff;
   border: 1px;
   border-color: #000;
-  border-style: solid;
   border-radius: 0.2rem;
-  color: #fff;
+  border-style: solid;
   margin-left: 1rem;
   outline: 0 none;
   padding: 0.3rem;
@@ -257,11 +257,21 @@ select {
 .header {
   background-color: #000;
   color: #fff;
-  position: fixed;
-  top: 0;
   height: 2rem;
+  position: fixed;
   padding: 0.5rem;
+  top: 0;
   width: 99.2%;
+}
+.content {
+  margin: 3rem auto 3rem auto;
+  text-align: center;
+  width: 100%;
+}
+.footer {
+  bottom: 0;
+  position: fixed;
+  width: 100%;
 }
 .nav-title {
   display: inline-block;
@@ -280,21 +290,11 @@ select {
   list-style: none;
 }
 .nav-links ul li {
-  padding-left: 1rem;
   display: inline-block;
+  padding-left: 1rem;
 }
 .nav-links ul li a {
   color: #fff;
-}
-.content {
-  margin: 3rem auto 3rem auto;
-  width: 100%;
-  text-align: center;
-}
-.footer {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
 }
 .submit-form {
   background-color: #444;
@@ -302,9 +302,9 @@ select {
   padding-top: 1rem;
 }
 .submit-form form {
-  text-align: center;
   width: 100%;
   margin: 0 auto;
+  text-align: center;
 }
 .submit-form .login-warning {
   font-weight: bold;
@@ -316,8 +316,8 @@ select {
   padding-top: 1rem;
 }
 .profile-form .fixed {
-  color: #fff;
   background-color: #000;
+  color: #fff;
 }
 .profile-form p {
   margin-top: 0;
@@ -327,8 +327,8 @@ select {
   width: 45rem;
 }
 .profile-form input[type=submit] {
-  margin: 0 auto;
   display: block;
+  margin: 0 auto;
   text-align: center;
 }
 .profile-form label {
@@ -338,8 +338,8 @@ select {
 .message {
   display: none;
   padding: 0;
-  width: 100%;
   text-align: center;
+  width: 100%;
 }
 .message-green {
   background-color: #03c385;
@@ -375,22 +375,14 @@ select {
   font-weight: bold;
   padding: 0.5rem;
 }
-.report-wrapper {
-  display: -webkit-flex;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: flex-start;
-}
 .about-grid {
   background-color: #fff;
   border-radius: 0.5rem;
   -webkit-box-flex: 1;
   flex: 1;
+  margin: 1rem;
   min-width: 35rem;
   max-width: 35rem;
-  margin: 1rem;
   text-align: center;
 }
 .about-grid ul {
@@ -401,14 +393,26 @@ select {
   border-radius: 0.5rem;
   list-style: none;
 }
+.report-wrapper {
+  -webkit-align-items: flex-start;
+  align-items: flex-start;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: row;
+  flex-direction: row;
+  -webkit-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-justify-content: center;
+  justify-content: center;
+}
 .report-grid {
   background-color: #fff;
   border-radius: 0.5rem;
   -webkit-box-flex: 1;
   flex: 1;
+  margin: 1rem;
   min-width: 22rem;
   max-width: 22rem;
-  margin: 1rem;
   text-align: left;
 }
 .report-grid ul {

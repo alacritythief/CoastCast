@@ -13,6 +13,7 @@ var bodyParser = require('body-parser');
 var stormpath = require('express-stormpath');
 var stylus = require('stylus');
 var nib = require('nib');
+var ip = require('ip');
 
 // CUSTOM LIBRARIES
 var now = require('./lib/now');
@@ -48,12 +49,13 @@ app.use(cookieParser());
 app.use(stormpath.init(app, {
     apiKeyFile: '.env',
     application: process.env.APP_URL,
-    secretKey: process.env.SECRET_KEY,
+    enableAutoLogin: true,
     enableUsername: true,
-    registrationView: __dirname + '/views/register.jade',
-    loginView: __dirname + '/views/login.jade',
     expandCustomData: true,
-    enableAutoLogin: true
+    loginView: __dirname + '/views/login.jade',
+    registrationView: __dirname + '/views/register.jade',
+    secretKey: process.env.SECRET_KEY,
+    sessionDuration: 86400000 * 7 // User session Expires after 7 days.
 }));
 
 // CSRF Protection:
@@ -360,7 +362,7 @@ app.use(function(req, res, next) {
 // SERVER SETTINGS
 
 http.listen(3000, function(){
-  var host = http.address().address;
+  var host = ip.address();
   var port = http.address().port;
 
   console.log('CoastCast is listening at http://%s:%s', host, port);
