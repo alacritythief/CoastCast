@@ -395,11 +395,10 @@ select {
 }
 .message-usercount {
   background-color: #000;
-  border-radius: 0.5rem;
+  border-right: 1px solid #fff;
   color: #fff;
-  display: inline-block;
   font-weight: bold;
-  padding: 0.5rem;
+  padding-right: 1rem;
 }
 .verified {
   background-color: #03c385;
