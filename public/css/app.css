@@ -200,12 +200,12 @@ html {
 }
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) {
   html {
-    font-size: 24px;
+    font-size: 22px;
   }
 }
 @media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (-webkit-min-device-pixel-ratio: 2) {
   html {
-    font-size: 24px;
+    font-size: 22px;
   }
 }
 body {
@@ -264,16 +264,6 @@ select {
   font-size: 1rem;
   margin-left: 1rem;
 }
-@media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) {
-  select {
-    font-size: 24rem;
-  }
-}
-@media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (-webkit-min-device-pixel-ratio: 2) {
-  select {
-    font-size: 1.5rem;
-  }
-}
 .header {
   background-color: #000;
   color: #fff;
@@ -331,16 +321,6 @@ select {
   background-color: #444;
   color: #fff;
   padding-top: 1rem;
-}
-@media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) {
-  .submit-form {
-    font-size: 1.5rem;
-  }
-}
-@media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (-webkit-min-device-pixel-ratio: 2) {
-  .submit-form {
-    font-size: 1.5rem;
-  }
 }
 .submit-form form {
   width: 100%;
@@ -458,7 +438,7 @@ select {
   flex-wrap: wrap;
   -webkit-justify-content: center;
   justify-content: center;
-  padding-bottom: 3rem;
+  padding-bottom: 4rem;
 }
 .report-grid {
   background-color: #fff;
@@ -479,6 +459,9 @@ select {
   list-style: none;
   word-break: break-word;
 }
+.report-listing li ul li {
+  font-size: 1rem;
+}
 .report-listing:not(:last-child) {
   border-bottom: 1px solid #ddd;
   border-bottom-left-radius: 0;
@@ -486,6 +469,18 @@ select {
 }
 .report-input {
   width: 15rem;
+}
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) {
+  .report-input {
+    font-size: 1.5rem;
+    width: 60%;
+  }
+}
+@media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (-webkit-min-device-pixel-ratio: 2) {
+  .report-input {
+    font-size: 1.5rem;
+    width: 60%;
+  }
 }
 .report-text {
   font-weight: bold;
