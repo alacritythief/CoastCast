@@ -10,12 +10,18 @@ $(document).ready(function() {
 
   // Alters Logo based on Window Size:
   $(window).resize(function() {
-    if ($(window).width() < 515 ) {
+    if ($(window).innerWidth() < 550 ) {
       $("#logo").text("CC");
     } else {
       $("#logo").text("CoastCast");
     };
   }).resize();
+
+  if (window.screen.width < 550 ) {
+    $("#logo").text("CC");
+  } else {
+    $("#logo").text("CoastCast");
+  };
 
   // Update Usercount
   socket.on('usercount', function(msg) {
