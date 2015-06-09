@@ -7,7 +7,7 @@ require('dotenv').load();
 
 // CORE LIBRARIES
 var express = require('express');
-var cookieParser = require('cookie-parser')
+var cookieParser = require('cookie-parser');
 var csrf = require('csurf');
 var bodyParser = require('body-parser');
 var stormpath = require('express-stormpath');
@@ -32,7 +32,7 @@ app.set('view engine', 'jade');
 var compileStylus = function(str, path) {
   return stylus(str)
     .set('filename', path)
-    .use(nib())
+    .use(nib());
 };
 
 app.use(stylus.middleware({src: __dirname + '/public', compile: compileStylus}));
@@ -93,26 +93,26 @@ app.locals.userCount = 0;
 function queueCheck() {
   if (app.locals.redbg > 99) {
     app.locals.redbg.pop();
-  };
+  }
 
   if (app.locals.greenbg > 99) {
     app.locals.greenbg.pop();
-  };
+  }
 
   if (app.locals.bluebg > 99) {
     app.locals.bluebg.pop();
-  };
+  }
 
   if (app.locals.ebg > 99) {
     app.locals.ebg.pop();
-  };
-};
+  }
+}
 
 
 // Total Report Count
 function allReportCount() {
-  return app.locals.redbg.length + app.locals.greenbg.length + app.locals.bluebg.length + app.locals.ebg.length
-};
+  return app.locals.redbg.length + app.locals.greenbg.length + app.locals.bluebg.length + app.locals.ebg.length;
+}
 
 
 // Socket.IO
@@ -126,35 +126,35 @@ io.on('connection', function(socket){
   socket.on('send_report', function(reportValues) {
     now = new Date();
 
-    if (!reportValues['user'].isEmpty() && !reportValues['bg'].isEmpty() && !reportValues['report'].isEmpty()) {
+    if (!reportValues.user.isEmpty() && !reportValues.bg.isEmpty() && !reportValues.report.isEmpty()) {
       console.log('Received: GOOD Report');
       console.log(reportValues);
 
       var report = {
         'rawstamp': now.rawstamp(),
-        'user': reportValues['user'],
-        'bg': reportValues['bg'],
-        'report': reportValues['report'],
+        'user': reportValues.user,
+        'bg': reportValues.bg,
+        'report': reportValues.report,
         'timestamp': now.timestamp()
       };
 
       queueCheck();
 
-      if (reportValues['bg'] === 'RED') {
+      if (reportValues.bg === 'RED') {
         app.locals.redbg.push(report);
-      } else if (reportValues['bg'] === 'GREEN') {
+      } else if (reportValues.bg === 'GREEN') {
         app.locals.greenbg.push(report);
-      } else if (reportValues['bg'] === 'BLUE') {
+      } else if (reportValues.bg === 'BLUE') {
         app.locals.bluebg.push(report);
-      } else if (reportValues['bg'] === 'EBG') {
+      } else if (reportValues.bg === 'EBG') {
         app.locals.ebg.push(report);
-      };
+      }
       io.emit('new_report', report);
 
     } else {
       console.log('Received: BAD Report');
       console.log(reportValues);
-    };
+    }
 
   });
 
@@ -197,35 +197,35 @@ app.post('/submit', function(req,res) {
   now = new Date();
 
   try {
-    if (!payload['user'].isEmpty() && !payload['bg'].isEmpty() && !payload['report'].isEmpty() && !payload['apikey'].isEmpty()) {
+    if (!payload.user.isEmpty() && !payload.bg.isEmpty() && !payload.report.isEmpty() && !payload.apikey.isEmpty()) {
 
-      authInfo(payload['apikey'], function(error, response) {
+      authInfo(payload.apikey, function(error, response) {
         if (response.status === 200) {
           var account = response.body;
 
-          if (account['world'] === 1017) {
+          if (account.world === 1017) {
             console.log('Received: GOOD Report');
             console.log(req.body);
 
             var report = {
               'rawstamp': now.rawstamp(),
-              'user': payload['user'],
-              'bg': payload['bg'],
-              'report': payload['report'],
+              'user': payload.user,
+              'bg': payload.bg,
+              'report': payload.report,
               'timestamp': now.timestamp()
             };
 
             queueCheck();
 
-            if (payload['bg'] === 'RED') {
+            if (payload.bg === 'RED') {
               app.locals.redbg.push(report);
-            } else if (payload['bg'] === 'GREEN') {
+            } else if (payload.bg === 'GREEN') {
               app.locals.greenbg.push(report);
-            } else if (payload['bg'] === 'BLUE') {
+            } else if (payload.bg === 'BLUE') {
               app.locals.bluebg.push(report);
-            } else if (payload['bg'] === 'EBG') {
+            } else if (payload.bg === 'EBG') {
               app.locals.ebg.push(report);
-            };
+            }
 
             io.emit('new_report', report);
             res.status(200).send(report);
@@ -233,24 +233,23 @@ app.post('/submit', function(req,res) {
             console.log('NOT ON TC');
             console.log(req.body);
             res.status(401).send('API Key is not on TC');
-          };
+          }
         } else {
           console.log('BAD API KEY');
           console.log(req.body);
           res.status(401).send('Bad API Key');
-        };
+        }
       });
-
     } else {
       console.log('Received: BAD Report');
       console.log(req.body);
       res.status(403).send('Incomplete Report');
-    };
+    }
   } catch(err) {
     console.log('Received: BAD Report');
     console.log(req.body);
     res.status(403).send('Incomplete Report');
-  };
+  }
 });
 
 
@@ -277,8 +276,8 @@ app.get('/ebg/json', function(req, res) {
 app.get('/profile', stormpath.loginRequired, csrfProtection, function(req, res) {
   res.render('profile', {
     user: req.user || null,
-    apikey: req.user.customData['apikey'] || '',
-    verified: req.user.customData['verified'] || null,
+    apikey: req.user.customData.apikey || '',
+    verified: req.user.customData.verified || null,
     csrfToken: req.csrfToken()
   });
 });
@@ -287,9 +286,9 @@ app.post('/profile', stormpath.loginRequired, csrfProtection, function(req, res)
   var payload = req.body;
 
   // Update User info:
-  req.user.givenName = payload['givenName'];
-  req.user.surname = payload['surname'];
-  req.user.customData['apikey'] = payload['apikey'];
+  req.user.givenName = payload.givenName;
+  req.user.surname = payload.surname;
+  req.user.customData.apikey = payload.apikey;
   req.user.customData.save();
   req.user.save(function(error, result) {
     if (!error) {
@@ -297,37 +296,37 @@ app.post('/profile', stormpath.loginRequired, csrfProtection, function(req, res)
       res.redirect('/profile/verify');
     } else {
       res.redirect('/profile');
-    };
+    }
   });
 });
 
 app.get('/profile/verify', stormpath.loginRequired, function(req, res) {
 
   // Query GW2 API and verify the user is on Tarnished Coast:
-  authInfo(req.user.customData['apikey'], function(error, response) {
+  authInfo(req.user.customData.apikey, function(error, response) {
     if (response.status === 200) {
       var account = response.body;
 
-      if (account['world'] === 1017) {
-        req.user.customData['verified'] = true;
+      if (account.world === 1017) {
+        req.user.customData.verified = true;
         req.user.customData.save();
         req.user.save(function(error, result) {
           res.redirect('/profile');
         });
       } else {
-        req.user.customData['verified'] = false;
+        req.user.customData.verified = false;
         req.user.customData.save();
         req.user.save(function(error, result) {
           res.redirect('/profile');
         });
-      };
+      }
     } else {
-        req.user.customData['verified'] = false;
+        req.user.customData.verified = false;
         req.user.customData.save();
         req.user.save(function(error, result) {
           res.redirect('/profile');
         });
-    };
+    }
   });
 });
 
