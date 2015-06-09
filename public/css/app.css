@@ -365,7 +365,7 @@ select {
 }
 .profile-form input[type=text],
 .profile-form input[type=password] {
-  width: 45rem;
+  width: 42rem;
 }
 .profile-form input[type=submit] {
   display: block;
