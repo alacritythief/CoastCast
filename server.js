@@ -13,6 +13,7 @@ var bodyParser = require('body-parser');
 var stormpath = require('express-stormpath');
 var stylus = require('stylus');
 var nib = require('nib');
+var ip = require('ip');
 
 // CUSTOM LIBRARIES
 var now = require('./lib/now');
@@ -48,12 +49,13 @@ app.use(cookieParser());
 app.use(stormpath.init(app, {
     apiKeyFile: '.env',
     application: process.env.APP_URL,
-    secretKey: process.env.SECRET_KEY,
+    enableAutoLogin: true,
     enableUsername: true,
-    registrationView: __dirname + '/views/register.jade',
-    loginView: __dirname + '/views/login.jade',
     expandCustomData: true,
-    enableAutoLogin: true
+    loginView: __dirname + '/views/login.jade',
+    registrationView: __dirname + '/views/register.jade',
+    secretKey: process.env.SECRET_KEY,
+    sessionDuration: 86400000 * 7 // User session Expires after 7 days.
 }));
 
 // CSRF Protection:
@@ -118,7 +120,7 @@ io.on('connection', function(socket){
 
   // Track when a user connects
   app.locals.userCount += 1;
-  io.emit('usercount', 'users connected: ' + app.locals.userCount);
+  io.emit('usercount', 'Connected: ' + app.locals.userCount);
 
   // Receiving reports
   socket.on('send_report', function(reportValues) {
@@ -159,7 +161,7 @@ io.on('connection', function(socket){
   // Track when a user disconnects
   socket.on('disconnect', function(){
     app.locals.userCount -= 1;
-    io.emit('usercount', 'users connected: ' + app.locals.userCount);
+    io.emit('usercount', 'Connected: ' + app.locals.userCount);
   });
 
 });
@@ -230,24 +232,24 @@ app.post('/submit', function(req,res) {
           } else {
             console.log('NOT ON TC');
             console.log(req.body);
-            res.status(500).send('API Key is not on TC');
+            res.status(401).send('API Key is not on TC');
           };
         } else {
           console.log('BAD API KEY');
           console.log(req.body);
-          res.status(500).send('Bad API Key');
+          res.status(401).send('Bad API Key');
         };
       });
 
     } else {
       console.log('Received: BAD Report');
       console.log(req.body);
-      res.status(500).send('Incomplete Report');
+      res.status(403).send('Incomplete Report');
     };
   } catch(err) {
     console.log('Received: BAD Report');
     console.log(req.body);
-    res.status(500).send('Incomplete Report');
+    res.status(403).send('Incomplete Report');
   };
 });
 
@@ -360,7 +362,7 @@ app.use(function(req, res, next) {
 // SERVER SETTINGS
 
 http.listen(3000, function(){
-  var host = http.address().address;
+  var host = ip.address();
   var port = http.address().port;
 
   console.log('CoastCast is listening at http://%s:%s', host, port);

@@ -8,14 +8,17 @@ $(document).ready(function() {
   // Initialize Socket.io
   var socket = io();
 
+  // Alters Logo based on Window Size:
+  $(window).resize(function() {
+    if ($(window).width() < 515 ) {
+      $("#logo").text("CC");
+    } else {
+      $("#logo").text("CoastCast");
+    };
+  }).resize();
+
   // Update Usercount
   socket.on('usercount', function(msg) {
-    $('.message-usercount').animate({
-      backgroundColor: "#666",
-    }, 1000);
-    $('.message-usercount').animate({
-      backgroundColor: "#000000",
-    }, 500);
     $('#usercount').text(msg);
   });
 
