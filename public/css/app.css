@@ -365,7 +365,22 @@ select {
 }
 .profile-form input[type=text],
 .profile-form input[type=password] {
-  width: 42rem;
+  min-width: 20rem;
+  width: 50%;
+}
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) {
+  .profile-form input[type=text],
+  .profile-form input[type=password] {
+    font-size: 1.3rem;
+    width: 80%;
+  }
+}
+@media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (-webkit-min-device-pixel-ratio: 2) {
+  .profile-form input[type=text],
+  .profile-form input[type=password] {
+    font-size: 1.3rem;
+    width: 80%;
+  }
 }
 .profile-form input[type=submit] {
   display: block;
