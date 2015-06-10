@@ -120,7 +120,7 @@ io.on('connection', function(socket){
 
   // Track when a user connects
   app.locals.userCount += 1;
-  io.emit('usercount', 'Connected: ' + app.locals.userCount);
+  io.emit('usercount', 'Users: ' + app.locals.userCount);
 
   // Receiving reports
   socket.on('send_report', function(reportValues) {
@@ -161,7 +161,7 @@ io.on('connection', function(socket){
   // Track when a user disconnects
   socket.on('disconnect', function(){
     app.locals.userCount -= 1;
-    io.emit('usercount', 'Connected: ' + app.locals.userCount);
+    io.emit('usercount', 'Users: ' + app.locals.userCount);
   });
 
 });

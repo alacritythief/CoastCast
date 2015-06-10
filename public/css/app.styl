@@ -10,12 +10,6 @@ html
   font-family Helvetica, Arial, Sans-Serif
   font-size 14px
 
-  @media iphone4
-    font-size 22px
-
-  @media iphone5s
-    font-size 22px
-
 body
   background-color bg-body
 
@@ -78,6 +72,12 @@ select
   top 0
   width 100% - 0.8rem
 
+  @media iphone4
+    padding 0 0.5rem 0.2rem 0.5rem
+
+  @media iphone5s
+    padding 0 0.5rem 0.2rem 0.5rem
+
 .content
   margin 3rem auto 3rem auto
   text-align center
@@ -94,6 +94,12 @@ select
   a
     color text-title
 
+    @media iphone4
+      font-size 1.8rem
+
+    @media iphone5s
+      font-size 1.8rem
+
 .nav-links
   float right
   font-size 1rem
@@ -101,10 +107,12 @@ select
   padding-right 0.8rem
 
   @media iphone4
-    font-size 1.2rem
+    padding-top 0.6rem
+    font-size 0.8rem
 
   @media iphone5s
-    font-size 1.2rem
+    padding-top 0.6rem
+    font-size 0.8rem
 
   ul
     margin 0
@@ -149,11 +157,9 @@ select
     width 50%
 
     @media iphone4
-      font-size 1.3rem
       width 80%
 
     @media iphone5s
-      font-size 1.3rem
       width 80%
 
   input[type=submit]
@@ -269,11 +275,9 @@ select
   width 15rem
 
   @media iphone4
-    font-size 1.5rem
     width 60%
 
   @media iphone5s
-    font-size 1.5rem
     width 60%
 
 .report-text
@@ -284,6 +288,12 @@ select
   border-top-right-radius 0.5rem
   color text-title
   padding 0.5rem
+
+  @media iphone4
+    font-size 1rem
+
+  @media iphone5s
+    font-size 1rem
 
 .title-red
   background-color bg-red
