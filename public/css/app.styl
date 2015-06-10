@@ -42,6 +42,14 @@ input[type=text], input[type=password]
   outline none
   padding .2rem
 
+  @media iphone4
+    margin 0 0 1rem 0
+    width 80%
+
+  @media iphone5s
+    margin 0 0 1rem 0
+    width 80%
+
 input[type=submit]
   background-color black
   color text-title
@@ -53,8 +61,24 @@ input[type=submit]
   outline 0 none
   padding .3rem
 
+  @media iphone4
+    margin 0
+    padding .2rem
+
+  @media iphone5s
+    margin 0
+    padding .2rem
+
 label
   margin-left 1rem
+
+  @media iphone4
+    margin-left 0.5rem
+    margin-right 0.5rem
+
+  @media iphone5s
+    margin-left 0.5rem
+    margin-right 0.5rem
 
 select
   color text-input
@@ -157,9 +181,11 @@ select
     width 50%
 
     @media iphone4
+      margin 0 0 1rem 0
       width 80%
 
     @media iphone5s
+      margin 0 0 1rem 0
       width 80%
 
   input[type=submit]

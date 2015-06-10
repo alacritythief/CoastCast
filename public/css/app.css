@@ -235,6 +235,20 @@ input[type=password] {
   outline: none;
   padding: 0.2rem;
 }
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) {
+  input[type=text],
+  input[type=password] {
+    margin: 0 0 1rem 0;
+    width: 80%;
+  }
+}
+@media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (-webkit-min-device-pixel-ratio: 2) {
+  input[type=text],
+  input[type=password] {
+    margin: 0 0 1rem 0;
+    width: 80%;
+  }
+}
 input[type=submit] {
   background-color: #000;
   color: #fff;
@@ -246,8 +260,32 @@ input[type=submit] {
   outline: 0 none;
   padding: 0.3rem;
 }
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) {
+  input[type=submit] {
+    margin: 0;
+    padding: 0.2rem;
+  }
+}
+@media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (-webkit-min-device-pixel-ratio: 2) {
+  input[type=submit] {
+    margin: 0;
+    padding: 0.2rem;
+  }
+}
 label {
   margin-left: 1rem;
+}
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) {
+  label {
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+  }
+}
+@media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (-webkit-min-device-pixel-ratio: 2) {
+  label {
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+  }
 }
 select {
   color: #000;
@@ -363,12 +401,14 @@ select {
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) {
   .profile-form input[type=text],
   .profile-form input[type=password] {
+    margin: 0 0 1rem 0;
     width: 80%;
   }
 }
 @media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (-webkit-min-device-pixel-ratio: 2) {
   .profile-form input[type=text],
   .profile-form input[type=password] {
+    margin: 0 0 1rem 0;
     width: 80%;
   }
 }
