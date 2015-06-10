@@ -265,12 +265,12 @@ select {
 }
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) {
   .header {
-    padding: 0 0.5rem 0.2rem 0.5rem;
+    padding: 0 0.5rem 0.4rem 0.5rem;
   }
 }
 @media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (-webkit-min-device-pixel-ratio: 2) {
   .header {
-    padding: 0 0.5rem 0.2rem 0.5rem;
+    padding: 0 0.5rem 0.4rem 0.5rem;
   }
 }
 .content {
@@ -307,13 +307,13 @@ select {
 }
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) {
   .nav-links {
-    padding-top: 0.6rem;
+    padding-top: 0.7rem;
     font-size: 0.8rem;
   }
 }
 @media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (-webkit-min-device-pixel-ratio: 2) {
   .nav-links {
-    padding-top: 0.6rem;
+    padding-top: 0.7rem;
     font-size: 0.8rem;
   }
 }
