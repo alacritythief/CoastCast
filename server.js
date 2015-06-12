@@ -190,7 +190,7 @@ app.get('/submit', function(req, res) {
 });
 
 // EXAMPLE POST request:
-// curl -d '{"user": "Jim Bob", "bg": "BLUE", "report": "30 BG at spawn tower", "apikey": "xxyyzz"}' -H "Content-Type: application/json" http://127.0.0.1:3000/submit
+// curl -d '{"user": "Jim Bob", "bg": "BLUE", "report": "30 BG at spawn tower", "accountName": "jimbob.2345", "apikey": "xxyyzz"}' -H "Content-Type: application/json" http://127.0.0.1:3000/submit
 
 app.post('/submit', function(req,res) {
   var payload = req.body;
