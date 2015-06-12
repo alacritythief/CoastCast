@@ -22,12 +22,15 @@ block content
     label(for="email") Email (fixed):
     input.fixed(placeholder='Email', required=true, name='email', value='#{user.email}', type='text', readonly)
     
-    label(for="apikey") GW2 API Key:
-    input.apikey-field(placeholder='XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXXXXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX', name='apikey', value='#{apikey}', type='text')
+    label(for="accountName") GW2 Account Name (needed for verification):
+    input(placeholder='ex: SomeExamplePerson.7956', name='accountName', value='#{accountName}', type='text')
+    
+    label(for="apikey") GW2 API Key (needed for verification):
+    input(placeholder='XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXXXXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX', name='apikey', value='#{apikey}', type='text')
     
     if verified === true
       p.verified Verified: Tarnished Coast
     else
       p.not-verified User is NOT VERIFIED
     
-    input(type="submit", value="Update Account") 
+    input(type="submit", value="Update Account")

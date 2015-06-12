@@ -190,20 +190,20 @@ app.get('/submit', function(req, res) {
 });
 
 // EXAMPLE POST request:
-// curl -d '{"user": "Jim Bob", "bg": "BLUE", "report": "30 BG at spawn tower", "apikey": "xxyyzz"}' -H "Content-Type: application/json" http://127.0.0.1:3000/submit
+// curl -d '{"user": "Jim Bob", "bg": "BLUE", "report": "30 BG at spawn tower", "accountName": "jimbob.2345", "apikey": "xxyyzz"}' -H "Content-Type: application/json" http://127.0.0.1:3000/submit
 
 app.post('/submit', function(req,res) {
   var payload = req.body;
   now = new Date();
 
   try {
-    if (!payload.user.isEmpty() && !payload.bg.isEmpty() && !payload.report.isEmpty() && !payload.apikey.isEmpty()) {
+    if (!payload.user.isEmpty() && !payload.bg.isEmpty() && !payload.report.isEmpty() && !payload.apikey.isEmpty() && !payload.accountName.isEmpty()) {
 
       authInfo(payload.apikey, function(error, response) {
         if (response.status === 200) {
           var account = response.body;
 
-          if (account.world === 1017) {
+          if (account.world === 1017 && account.name === payload.accountName) {
             console.log('Received: GOOD Report');
             console.log(req.body);
 
@@ -276,6 +276,7 @@ app.get('/ebg/json', function(req, res) {
 app.get('/profile', stormpath.loginRequired, csrfProtection, function(req, res) {
   res.render('profile', {
     user: req.user || null,
+    accountName: req.user.customData.accountName || '',
     apikey: req.user.customData.apikey || '',
     verified: req.user.customData.verified || null,
     csrfToken: req.csrfToken()
@@ -288,6 +289,7 @@ app.post('/profile', stormpath.loginRequired, csrfProtection, function(req, res)
   // Update User info:
   req.user.givenName = payload.givenName;
   req.user.surname = payload.surname;
+  req.user.customData.accountName = payload.accountName;
   req.user.customData.apikey = payload.apikey;
   req.user.customData.save();
   req.user.save(function(error, result) {
@@ -307,7 +309,7 @@ app.get('/profile/verify', stormpath.loginRequired, function(req, res) {
     if (response.status === 200) {
       var account = response.body;
 
-      if (account.world === 1017) {
+      if (account.world === 1017 && account.name === req.user.customData.accountName) {
         req.user.customData.verified = true;
         req.user.customData.save();
         req.user.save(function(error, result) {
