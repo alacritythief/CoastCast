@@ -505,7 +505,7 @@ select {
 .report-grid ul li {
   border-radius: 0.5rem;
   list-style: none;
-  word-break: break-word;
+  word-wrap: break-word;
 }
 .report-listing li ul li {
   font-size: 1rem;
@@ -566,5 +566,5 @@ select {
   background-color: #47d;
 }
 .title-ebg {
-  background-color: #302;
+  background-color: #85667a;
 }

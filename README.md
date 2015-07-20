@@ -23,9 +23,10 @@ Each JSON route is at `bgcolor/json`. Each will send back the latest 100 reports
 * `http://localhost:3000/blue/json`
 * `http://localhost:3000/ebg/json`
 
-For submitting a report to the CoastCast API, POST to `http://localhost:3000/submit` with a valid GW2 API key.
-* Example: `curl -d '{"user": "Sneaky Scout", "report": "30 JQ at spawn tower", "apikey": "xxxyyzz"}' -H "Content-Type: application/json" http://127.0.0.1:3000/submit`
-* If all information is valid, and the API key verified to be on TC, a 200 response will be sent back with the creation of the report.
+For submitting a report to the CoastCast API, POST to `http://localhost:3000/submit` with a valid account name and GW2 API key.
+* Example: `curl -d '{"user": "Sneaky Scout", "bg": "BLUE", "report": "30 JQ at spawn tower", "accountName": "jimbob.2345", "apikey": "xxxyyzz"}' -H "Content-Type: application/json" http://127.0.0.1:3000/submit`
+* The options for the "bg" key are: "RED", "GREEN", "BLUE", "EBG". This is case sensitive.
+* If all information is valid, and the API key verified to be on TC, a 200 response will be sent back with the creation of the report, and the report will show up in the app.
 * Otherwise, you will get a 500 response back with errors such as `Bad API Key`, `NOT ON TC`, or `Incomplete Report`, depending on what has been sent.
 
 
@@ -35,7 +36,7 @@ POST Testing:
 * Uncomment PING area in `server.js`
 * Run the server `node server.js`
 * In another terminal window, enter:
-* `curl -d '{"user": "Jim Bob", "report": "30 BG at spawn tower", "apikey": "xxxyyzz"}' -H "Content-Type: application/json" http://127.0.0.1:3000/ping`
+* `curl -d '{"user": "Jim Bob", "bg": "RED", "report": "30 BG at spawn tower", "accountName": "jimbob.2345", "apikey": "xxxyyzz"}' -H "Content-Type: application/json" http://127.0.0.1:3000/ping`
 * Check your server's terminal window to see if the POST was received.
 
 PING Testing:
